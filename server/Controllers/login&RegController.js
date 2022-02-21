@@ -1,5 +1,5 @@
 const Manager = require("../Database/Model/ManagerModel");
-const User = require("../Database/Model/NormalUserModel");
+const User = require("../Database/Model/UserModel");
 const Login = require("../Database/Model/LoginModel");
 const registerValidator = require("../validator/registerValidator");
 const loginValidator = require("../validator/loginValidator");
@@ -10,8 +10,7 @@ const bcrypt = require("bcrypt");
 
 module.exports = {
   registration(req, res) {
-    let { name, phone, email, messId, password, confirmPassword, type } =
-      req.body;
+    let { name, phone, email, password, confirmPassword } = req.body;
 
     Login.findOne({ _id: phone })
       .then((user) => {
@@ -27,26 +26,27 @@ module.exports = {
             _id: phone,
             name,
             password: hash,
-            type,
+            type: "",
           });
           user
             .save()
             .then((user) => {
               res.status(201).json({
-                message: "Register Successfully",
+                message: "Successfully Register ",
                 // user,
               });
-              return user;
+              // return user;
             })
 
             .then((user) => {
-              if (user.type === "normal_user") {
-                let setUser = new User({ name, phone, email, messId });
-                return setUser.save();
-              } else if (user.type === "manager") {
-                let setManager = new Manager({ name, phone, email, messId });
-                return setManager.save();
-              }
+              // if (user.type === "normal_user") {
+              let setUser = new User({ name, phone, email });
+              return setUser.save();
+              // }
+              // else if (user.type === "manager") {
+              //   let setManager = new Manager({ name, phone, email, messId });
+              //   return setManager.save();
+              // }
             })
             .catch((error) => serverError(res, error));
         });
@@ -71,66 +71,93 @@ module.exports = {
           return resourceError(res, "User Not Found");
         }
 
-        if (user.type === "normal_user") {
-          bcrypt.compare(password, user.password, (err, result) => {
-            if (err) {
-              return serverError(res, err);
-            }
+        bcrypt.compare(password, user.password, (err, result) => {
+          if (err) {
+            return serverError(res, err);
+          }
 
-            if (!result) {
-              return resourceError(res, "Password dose not match");
-            }
-
-            let token = jwt.sign(
-              {
-                _id: user._id,
-                name: user.name,
-                type: user.type,
-              },
-              process.env.SECRET,
-              { expiresIn: "2h" }
-            );
-
-            res.status(200).json({
-              message: "Login Successfull",
+          if (!result) {
+            return resourceError(res, "Password dose not match");
+          }
+          let token = jwt.sign(
+            {
               _id: user._id,
-              token: `Bearer ${token}`,
               name: user.name,
               type: user.type,
-            });
-          });
-        } else if (user.type === "manager") {
-          bcrypt.compare(password, user.password, (err, result) => {
-            if (err) {
-              return serverError(res, err);
-            }
+            },
+            process.env.SECRET,
+            { expiresIn: "2h" }
+          );
 
-            if (!result) {
-              return resourceError(res, "Password dose not match");
-            }
-            let token = jwt.sign(
-              {
-                _id: user._id,
-                name: user.name,
-                type: user.type,
-              },
-              process.env.SECRET,
-              { expiresIn: "2h" }
-            );
+          res.status(200).json({
+            message: "Login Successfull",
+            _id: user._id,
+            token: `Bearer ${token}`,
+            name: user.name,
+            type: user.type,
+          });
+        });
 
-            res.status(200).json({
-              message: "Login Successfull",
-              _id: user._id,
-              token: `Bearer ${token}`,
-              name: user.name,
-              type: user.type,
-            });
-          });
-        } else {
-          res.status(404).json({
-            message: "User not found",
-          });
-        }
+        // if (user.type === "normal_user") {
+        //   bcrypt.compare(password, user.password, (err, result) => {
+        //     if (err) {
+        //       return serverError(res, err);
+        //     }
+
+        //     if (!result) {
+        //       return resourceError(res, "Password dose not match");
+        //     }
+
+        //     let token = jwt.sign(
+        //       {
+        //         _id: user._id,
+        //         name: user.name,
+        //         type: user.type,
+        //       },
+        //       process.env.SECRET,
+        //       { expiresIn: "2h" }
+        //     );
+
+        //     res.status(200).json({
+        //       message: "Login Successfull",
+        //       _id: user._id,
+        //       token: `Bearer ${token}`,
+        //       name: user.name,
+        //       type: user.type,
+        //     });
+        //   });
+        // } else if (user.type === "manager") {
+        //   bcrypt.compare(password, user.password, (err, result) => {
+        //     if (err) {
+        //       return serverError(res, err);
+        //     }
+
+        //     if (!result) {
+        //       return resourceError(res, "Password dose not match");
+        //     }
+        //     let token = jwt.sign(
+        //       {
+        //         _id: user._id,
+        //         name: user.name,
+        //         type: user.type,
+        //       },
+        //       process.env.SECRET,
+        //       { expiresIn: "2h" }
+        //     );
+
+        //     res.status(200).json({
+        //       message: "Login Successfull",
+        //       _id: user._id,
+        //       token: `Bearer ${token}`,
+        //       name: user.name,
+        //       type: user.type,
+        //     });
+        //   });
+        // } else {
+        //   res.status(404).json({
+        //     message: "User not found",
+        //   });
+        // }
       })
       .catch((error) => serverError(res, error));
   },

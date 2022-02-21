@@ -73,6 +73,15 @@ install dependencies
 
 
 
+====================git push new branch===================
+=> git checkout -b toukir
+=> git add .
+=> git commit -m "new update"
+=> git push origin toukir
+
+
+
+
 
 
 

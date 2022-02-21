@@ -7,10 +7,9 @@ import { logout } from "../../redux/slices/auth";
 
 const NavigationBar = () => {
   const [showManagerBoard, setShowManagerBoard] = useState(false);
-  const [showAdminBoard, setShowAdminBoard] = useState(false);
 
   const { user: currentUser } = useSelector((state) => state.auth);
-
+  // console.log(currentUser.type === undefined);
   const dispatch = useDispatch();
   const logOut = useCallback(() => {
     dispatch(logout());
@@ -19,10 +18,8 @@ const NavigationBar = () => {
   useEffect(() => {
     if (currentUser) {
       setShowManagerBoard(currentUser.type.includes("manager"));
-      setShowAdminBoard(currentUser.type.includes("ROLE_ADMIN"));
     } else {
       setShowManagerBoard(false);
-      setShowAdminBoard(false);
     }
 
     // EventBus.on("logout", () => {
@@ -41,9 +38,9 @@ const NavigationBar = () => {
         expand="md"
         collapseOnSelect="true"
       >
-        <Container className="navGlass">
+        <Container>
           <Navbar.Brand>
-            <b className="text-dark">Bill</b>Factor
+            <b className="text-dark">Mess</b>Factor
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
@@ -63,18 +60,6 @@ const NavigationBar = () => {
                   >
                     {/* <Link > */}
                     Moderator Board
-                    {/* </Link> */}
-                  </Nav.Link>
-                )}
-                {showAdminBoard && (
-                  <Nav.Link
-                    eventKey="3"
-                    as={Link}
-                    to="/admin"
-                    className="navLink"
-                  >
-                    {/* <Link > */}
-                    Admin Board
                     {/* </Link> */}
                   </Nav.Link>
                 )}
@@ -126,6 +111,15 @@ const NavigationBar = () => {
                       {/* <Link > */}
                       Login
                       {/* </Link> */}
+                    </Nav.Link>
+
+                    <Nav.Link
+                      eventKey="7"
+                      as={Link}
+                      to="/register"
+                      className="navLink"
+                    >
+                      Register
                     </Nav.Link>
                   </div>
                 )}

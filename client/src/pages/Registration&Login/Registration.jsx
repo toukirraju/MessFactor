@@ -1,15 +1,17 @@
+import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import React, { useState, useEffect } from "react";
 import { register } from "../../redux/slices/auth";
 import { clearMessage } from "../../redux/slices/message";
 import { Formik, Field, Form, ErrorMessage } from "formik";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
 import { validationSchema } from "../../validation/LoginAndReg";
 
 const Registration = () => {
   const [successful, setSuccessful] = useState(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   useEffect(() => {
     dispatch(clearMessage());
   }, [dispatch]);
@@ -20,7 +22,6 @@ const Registration = () => {
     email: "",
     password: "",
     confirmPassword: "",
-    type: "",
   };
 
   const handleRegister = (formValue, { resetForm }) => {
@@ -31,7 +32,9 @@ const Registration = () => {
       .then(() => {
         setSuccessful(true);
         toast.success("Successfully registered!");
+
         resetForm();
+        navigate("/login");
         dispatch(clearMessage());
       })
       .catch(() => {
@@ -41,17 +44,8 @@ const Registration = () => {
 
   return (
     <>
-      <div>
-        <ToastContainer />
-      </div>
-      <div
-        className="tab-pane fade show"
-        id="profile"
-        role="tabpanel"
-        aria-labelledby="profile-tab"
-      >
-        <h3 className="register-heading">Registration</h3>
-
+      <h3 className="text-center m-5">Registration</h3>
+      <div className="container d-flex align-item-center justify-content-center">
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
@@ -128,7 +122,7 @@ const Registration = () => {
                     className="alert alert-danger"
                   />
                 </div>
-                <div className="form-group mb-3">
+                {/* <div className="form-group mb-3">
                   <Field
                     className="form-control"
                     component="select"
@@ -146,8 +140,12 @@ const Registration = () => {
                     component="div"
                     className="alert alert-danger"
                   />
-                </div>
-                <input type="submit" className="btnRegister" value="Register" />
+                </div> */}
+                <input
+                  type="submit"
+                  className="btn btn-primary"
+                  value="Register"
+                />
               </div>
             </div>
           </Form>
