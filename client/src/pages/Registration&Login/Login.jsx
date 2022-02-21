@@ -7,7 +7,7 @@ import * as Yup from "yup";
 import { login } from "../../redux/slices/auth";
 import { clearMessage } from "../../redux/slices/message";
 
-const Login = (props) => {
+const Login = () => {
   const [loading, setLoading] = useState(false);
   const history = useNavigate();
   const { isLoggedIn } = useSelector((state) => state.auth);
@@ -61,15 +61,10 @@ const Login = (props) => {
           </div>
         </div>
       )}
-      <div
-        className="tab-pane fade show active"
-        id="home"
-        role="tabpanel"
-        aria-labelledby="home-tab"
-      >
-        <h3 className="register-heading">Login</h3>
-        <div className="row register-form">
-          <div className="col-md-8 offset-1">
+      <h3 className="text-center">Login</h3>
+      <div className="container justify-content-center">
+        <div className="row ">
+          <div className="col-md-6 offset-3 ">
             <Formik
               initialValues={initialValues}
               validationSchema={validationSchema}
@@ -103,7 +98,11 @@ const Login = (props) => {
                     className="alert alert-danger"
                   />
                 </div>
-                <input type="submit" className="btnRegister" value="Login" />
+                <input
+                  type="submit"
+                  className="btn btn-primary"
+                  value="Login"
+                />
               </Form>
             </Formik>
           </div>
