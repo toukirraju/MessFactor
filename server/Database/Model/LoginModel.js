@@ -17,6 +17,9 @@ const loginSchema = new Schema({
   type: {
     type: String,
   },
+  messId: {
+    type: String,
+  },
   date: {
     type: Date,
     default: Date.now,

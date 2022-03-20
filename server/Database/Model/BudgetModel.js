@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const messInfoSchema = new Schema({
+const messBudgetSchema = new Schema({
   _id: {
     type: String,
     required: true,
@@ -13,9 +13,7 @@ const messInfoSchema = new Schema({
   totalSeats: {
     type: Number,
   },
-  perSeatRent: {
-    type: Number,
-  },
+
   utilityBills: {
     perSeatRent: {
       type: Number,
@@ -29,5 +27,5 @@ const messInfoSchema = new Schema({
   },
 });
 
-const MessInfoModel = mongoose.model("MessInfoModel", messInfoSchema);
-module.exports = MessInfoModel;
+const BudgetModel = mongoose.model("BudgetModel", messBudgetSchema);
+module.exports = BudgetModel;

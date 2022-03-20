@@ -1,10 +1,16 @@
 const router = require("express").Router();
 
-const { registration, login } = require("../Controllers/login&RegController");
+const {
+  managerRegister,
+  userRegister,
+  login,
+} = require("../Controllers/login&RegController");
 
 //Registration Route
 
-router.post("/register", registration);
+router.post("/manager_register", managerRegister);
+
+router.post("/user_register", userRegister);
 
 //Login Route
 
