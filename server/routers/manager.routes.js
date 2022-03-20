@@ -5,10 +5,15 @@ const {
   createMess,
   updateMess,
   removeMess,
-} = require("../Controllers/managerController");
+  getAllInfo,
+} = require("../Controllers/managerControllers/messInfoController");
 
-router.post("/create", authenticate, createMess);
+router.post("/mess/create", createMess);
 
-router.post("/update", updateMess);
+router.get("/mess", getAllInfo);
+
+router.put("/mess/:messId", updateMess);
+
+router.delete("/mess/:messId", removeMess);
 
 module.exports = router;

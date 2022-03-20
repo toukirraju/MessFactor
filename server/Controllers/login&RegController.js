@@ -9,8 +9,8 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
 module.exports = {
-  registration(req, res) {
-    let { name, phone, email, password, confirmPassword } = req.body;
+  managerRegister(req, res) {
+    let { name, phone, email, password } = req.body;
 
     Login.findOne({ _id: phone })
       .then((user) => {
@@ -26,7 +26,7 @@ module.exports = {
             _id: phone,
             name,
             password: hash,
-            type: "",
+            type: "manager",
           });
           user
             .save()
@@ -40,7 +40,60 @@ module.exports = {
 
             .then((user) => {
               // if (user.type === "normal_user") {
-              let setUser = new User({ name, phone, email });
+              let setUser = new User({
+                name,
+                phone,
+                email,
+              });
+              return setUser.save();
+              // }
+              // else if (user.type === "manager") {
+              //   let setManager = new Manager({ name, phone, email, messId });
+              //   return setManager.save();
+              // }
+            })
+            .catch((error) => serverError(res, error));
+        });
+      })
+      .catch((error) => {
+        serverError(res, error);
+      });
+    // }
+  },
+
+  userRegister(req, res) {
+    let { name, phone, email, password, messId } = req.body;
+
+    Login.findOne({ _id: phone })
+      .then((user) => {
+        if (user) {
+          return resourceError(res, "Phone Number Already Exists.");
+        }
+
+        bcrypt.hash(password, 11, (err, hash) => {
+          if (err) {
+            return resourceError(res, "Server Error Occurred.");
+          }
+          let user = new Login({
+            _id: phone,
+            name,
+            password: hash,
+            type: "user",
+            messId,
+          });
+          user
+            .save()
+            .then((user) => {
+              res.status(201).json({
+                message: "Successfully Register ",
+                // user,
+              });
+              // return user;
+            })
+
+            .then((user) => {
+              // if (user.type === "normal_user") {
+              let setUser = new User({ name, phone, email, messId });
               return setUser.save();
               // }
               // else if (user.type === "manager") {
