@@ -2,11 +2,30 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { setMessage } from "./message";
 import AuthService from "../services/auth.service";
 
-export const register = createAsyncThunk(
-  "auth/register",
+export const managerRegister = createAsyncThunk(
+  "auth/man_register",
   async (user, thunkAPI) => {
     try {
-      const response = await AuthService.register(user);
+      const response = await AuthService.managerRegister(user);
+      thunkAPI.dispatch(setMessage(response.data.message));
+      return response.data;
+    } catch (error) {
+      const message =
+        (error.response && error.response.data.message) ||
+        error.response.data ||
+        error.message ||
+        error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+);
+
+export const userRegister = createAsyncThunk(
+  "auth/user_register",
+  async (user, thunkAPI) => {
+    try {
+      const response = await AuthService.userRegister(user);
       thunkAPI.dispatch(setMessage(response.data.message));
       return response.data;
     } catch (error) {
@@ -77,10 +96,16 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   extraReducers: {
-    [register.fulfilled]: (state, action) => {
+    [managerRegister.fulfilled]: (state, action) => {
       state.isLoggedIn = false;
     },
-    [register.rejected]: (state, action) => {
+    [managerRegister.rejected]: (state, action) => {
+      state.isLoggedIn = false;
+    },
+    [userRegister.fulfilled]: (state, action) => {
+      state.isLoggedIn = false;
+    },
+    [userRegister.rejected]: (state, action) => {
       state.isLoggedIn = false;
     },
     [login.fulfilled]: (state, action) => {

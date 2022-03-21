@@ -34,7 +34,7 @@ const NavigationBar = () => {
   return (
     <>
       <Navbar
-        className="sticky-top navbarrr bg-info"
+        className="sticky-top navbarrr bg-secondary"
         expand="md"
         collapseOnSelect="true"
       >
@@ -116,10 +116,18 @@ const NavigationBar = () => {
                     <Nav.Link
                       eventKey="7"
                       as={Link}
-                      to="/register"
+                      to="/manRegister"
                       className="navLink"
                     >
-                      Register
+                      Manager Register
+                    </Nav.Link>
+                    <Nav.Link
+                      eventKey="7"
+                      as={Link}
+                      to="/userRegister"
+                      className="navLink"
+                    >
+                      User Register
                     </Nav.Link>
                   </div>
                 )}
