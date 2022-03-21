@@ -13,9 +13,6 @@ const messInfoSchema = new Schema({
   totalSeats: {
     type: Number,
   },
-  perSeatRent: {
-    type: Number,
-  },
   utilityBills: {
     perSeatRent: {
       type: Number,

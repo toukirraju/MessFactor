@@ -1,14 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import React, { useState, useEffect } from "react";
-import { register } from "../../redux/slices/auth";
+import { userRegister } from "../../redux/slices/auth";
 import { clearMessage } from "../../redux/slices/message";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import { toast } from "react-toastify";
 // import "react-toastify/dist/ReactToastify.css";
 import { validationSchema } from "../../validation/LoginAndReg";
 
-const Registration = () => {
+const UserRegistration = () => {
   const [successful, setSuccessful] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -20,6 +20,7 @@ const Registration = () => {
     name: "",
     phone: "",
     email: "",
+    messId: "",
     password: "",
     confirmPassword: "",
   };
@@ -27,7 +28,7 @@ const Registration = () => {
   const handleRegister = (formValue, { resetForm }) => {
     setSuccessful(false);
 
-    dispatch(register(formValue))
+    dispatch(userRegister(formValue))
       .unwrap()
       .then(() => {
         setSuccessful(true);
@@ -44,7 +45,7 @@ const Registration = () => {
 
   return (
     <>
-      <h3 className="text-center m-5">Registration</h3>
+      <h3 className="text-center m-5">UserRegistration</h3>
       <div className="container d-flex align-item-center justify-content-center">
         <Formik
           initialValues={initialValues}
@@ -83,6 +84,21 @@ const Registration = () => {
                 </div>
                 <div className="form-group mb-3">
                   <Field
+                    name="messId"
+                    type="messId"
+                    className="form-control"
+                    placeholder="Mess Id *"
+                  />
+                  <ErrorMessage
+                    name="messId"
+                    component="div"
+                    className="alert alert-danger"
+                  />
+                </div>
+              </div>
+              <div className="col-md-6">
+                <div className="form-group mb-3">
+                  <Field
                     name="phone"
                     type="number"
                     className="form-control"
@@ -94,8 +110,6 @@ const Registration = () => {
                     className="alert alert-danger"
                   />
                 </div>
-              </div>
-              <div className="col-md-6">
                 <div className="form-group mb-3">
                   <Field
                     name="password"
@@ -155,4 +169,4 @@ const Registration = () => {
   );
 };
 
-export default Registration;
+export default UserRegistration;

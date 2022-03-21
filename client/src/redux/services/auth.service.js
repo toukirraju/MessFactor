@@ -3,8 +3,12 @@ import jwtDecode from "jwt-decode";
 
 const API_URL = "http://localhost:4000/api/";
 
-const register = (user) => {
-  return axios.post(API_URL + "register", user);
+const managerRegister = (user) => {
+  return axios.post(API_URL + "manager_register", user);
+};
+
+const userRegister = (user) => {
+  return axios.post(API_URL + "user_register", user);
 };
 
 // const login = (user) => {
@@ -46,7 +50,8 @@ const logout = () => {
 };
 
 const authService = {
-  register,
+  managerRegister,
+  userRegister,
   login,
   logout,
   setUserData,

@@ -8,11 +8,12 @@ import AuthVerify from "./common/AuthVerify";
 import { logout } from "./redux/slices/auth";
 import { useDispatch, useSelector } from "react-redux";
 import ApartmentDetails from "./pages/moderator/Apartments/ApartmentDetails";
-import Registration from "./pages/Registration&Login/Registration";
+import ManagerRegistration from "./pages/Registration&Login/ManagerRegistration";
 import Login from "./pages/Registration&Login/Login";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import UserRegistration from "./pages/Registration&Login/UserRegistration";
 
 function App() {
   const dispatch = useDispatch();
@@ -46,7 +47,8 @@ function App() {
             <>
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Registration />} />
+              <Route path="/manRegister" element={<ManagerRegistration />} />
+              <Route path="/userRegister" element={<UserRegistration />} />
             </>
           )}
         </Routes>

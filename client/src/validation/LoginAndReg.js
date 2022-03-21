@@ -11,6 +11,7 @@ export const validationSchema = Yup.object().shape({
   email: Yup.string()
     .email("This is not a valid email.")
     .required("This field is required!"),
+  messId: Yup.string().required("This field is required!"),
   phone: Yup.string().required("This field is required!"),
   password: Yup.string()
     .test(

@@ -4,13 +4,24 @@ const { serverError, resourceError } = require("../../utils/error");
 
 module.exports = {
   createMess(req, res) {
-    let { messId, messName, totalSeats, perSeatRent } = req.body;
+    let { messId, messName, totalSeats, perSeatRent, homeMaid, wifi } =
+      req.body;
+
+    // let objData = new Object({
+    //   perSeatRent,
+    //   homeMaid,
+    //   wifi,
+    // });
     let messData = new MessInfo({
       //   managerId: userId,
       _id: messId,
       messName,
       totalSeats,
-      perSeatRent,
+      utilityBills: {
+        perSeatRent,
+        homeMaid,
+        wifi,
+      },
     });
     MessInfo.findOne({ _id: messId })
       .then((mess) => {
