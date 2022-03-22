@@ -1,27 +1,25 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const userBillSchema = new Schema({
+const mealSchema = new Schema({
   // _id==messId
   _id: {
     type: String,
     required: true,
   },
-  userBill: [
+
+  userMeal: [
     {
       userId: {
         type: String,
       },
-      rent: {
+      morning: {
         type: Number,
       },
-      wifi: {
+      day: {
         type: Number,
       },
-      currentBill: {
-        type: Number,
-      },
-      mealBudget: {
+      night: {
         type: Number,
       },
       date: {
@@ -31,5 +29,5 @@ const userBillSchema = new Schema({
   ],
 });
 
-const UserBillModel = mongoose.model("UserBillModel", userBillSchema);
-module.exports = UserBillModel;
+const MealModel = mongoose.model("MealModel", mealSchema);
+module.exports = MealModel;

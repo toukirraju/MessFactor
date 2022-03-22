@@ -1,44 +1,35 @@
-const UserBillModel = require("../../Database/Model/UserBillModel");
+const ExpenseModel = require("../../Database/Model/ExpenseModel");
 
 const { serverError, resourceError } = require("../../utils/error");
 
 module.exports = {
-  createBill(req, res) {
-    let { userId, rent, wifi, currentBill, mealBudget, date } = req.body;
+  createExpense(req, res) {
+    let { expType, expAmount, date } = req.body;
     const messId = "111222";
-    let objData = new Object({
-      userId,
-      rent,
-      wifi,
-      currentBill,
-      mealBudget,
-      date,
-    });
-    let billData = new UserBillModel({
-      //   managerId: userId,
+    let objData = new Object({ expType, expAmount, date });
+    let expData = new ExpenseModel({
       _id: messId,
-      userBill: objData,
+      expense: objData,
     });
-    UserBillModel.findOne({ _id: messId })
+    ExpenseModel.findOne({ _id: messId })
       .then((mess) => {
         if (mess) {
-          mess.userBill.push(objData);
+          mess.expense.push(objData);
           mess
             .save()
             .then((response) => {
               res.status(201).json({
-                message: "Bill Created Successfully",
-                mess: response.data,
+                message: "Expense Created Successfully",
               });
             })
             .catch((error) => serverError(res, error));
         } else {
           // return resourceError(res, "Please create mess first!");
-          billData
+          expData
             .save()
             .then((response) => {
               res.status(201).json({
-                message: "Bill Created Successfully",
+                message: "Expense Created Successfully",
               });
             })
             .catch((error) => serverError(res, error));
@@ -49,15 +40,15 @@ module.exports = {
       });
   },
 
-  getMonthlyBill(req, res) {
+  getMonthlyExpense(req, res) {
     // let { _id, role, homeId, homeOwner } = req.user;
     const messId = "111222";
-    UserBillModel.findOne({ _id: messId })
+    ExpenseModel.findOne({ _id: messId })
       .then((result) => {
         if (result != null) {
-          if (result.userBill.length != 0) {
+          if (result.expense.length != 0) {
             let monthlyData = [];
-            result.userBill.filter((i) => {
+            result.expense.filter((i) => {
               if (
                 new Date(i.date).getMonth() + 1 ===
                   parseInt(req.params.month) &&
@@ -69,80 +60,64 @@ module.exports = {
 
             res.status(200).json(monthlyData);
           } else {
-            return resourceError(res, "No Bill Found");
+            return resourceError(res, "No data Found");
           }
         } else {
-          return resourceError(res, "No bill found");
+          return resourceError(res, "No data found");
         }
       })
       .catch((error) => serverError(res, error));
   },
 
-  getTotalMealBudget(req, res) {
+  getMonthlyTotalExpense(req, res) {
+    // let { _id, role, homeId, homeOwner } = req.user;
     const messId = "111222";
-    UserBillModel.findOne({ _id: messId })
-      .then((mess) => {
-        if (mess) {
-          if (mess.userBill.length !== 0) {
-            let totalBudget = 0;
-            for (let i = 0; i < mess.userBill.length; i++) {
-              if (
-                new Date(mess.userBill[i].date).getMonth() + 1 ===
-                  new Date().getMonth() + 1 &&
-                new Date(mess.userBill[i].date).getFullYear() ===
-                  new Date().getFullYear()
-              ) {
-                totalBudget += mess.userBill[i].mealBudget;
-              }
-            }
-            res.status(200).json(totalBudget);
-          } else {
-            res.status(200).json({
-              message: "Data not found",
-            });
-          }
-        } else {
-          res.status(200).json({
-            message: "Data not found",
-          });
-        }
-      })
-      .catch((error) => serverError(res, error));
-  },
-
-  updateMess(req, res) {
-    // let { messId } = req.params;
-    const messId = "124";
-    MessInfo.findOneAndUpdate(
-      { _id: messId },
-      { $set: req.body },
-      { new: true }
-    )
+    ExpenseModel.findOne({ _id: messId })
       .then((result) => {
-        res.status(200).json({
-          message: "Update Successfully",
-        });
+        if (result != null) {
+          if (result.expense.length != 0) {
+            let monthlyData = [];
+            result.expense.filter((i) => {
+              if (
+                new Date(i.date).getMonth() + 1 ===
+                  parseInt(req.params.month) &&
+                new Date(i.date).getFullYear() === parseInt(req.params.year)
+              ) {
+                return monthlyData.push(i);
+              }
+            });
+
+            let totalExpense = 0;
+            for (let i = 0; i < monthlyData.length; i++) {
+              totalExpense += monthlyData[i].expAmount;
+            }
+
+            res.status(200).json(totalExpense);
+          } else {
+            return resourceError(res, "No data Found");
+          }
+        } else {
+          return resourceError(res, "No data found");
+        }
       })
       .catch((error) => serverError(res, error));
   },
 
-  updateBill(req, res) {
+  updateExpense(req, res) {
     const messId = "111222";
-    UserBillModel.findOne({ _id: messId })
+    ExpenseModel.findOne({ _id: messId })
       .then((mess) => {
         if (mess) {
-          let billData;
+          let expData;
 
-          mess.userBill.filter((i) => {
+          mess.expense.filter((i) => {
             if (i._id == req.body._id) {
-              return (billData = i);
+              return (expData = i);
             }
           });
 
-          billData.rent = req.body.rent;
-          billData.wifi = req.body.wifi;
-          billData.currentBill = req.body.currentBill;
-          billData.mealBudget = req.body.mealBudget;
+          expData.expType = req.body.expType;
+          expData.expAmount = req.body.expAmount;
 
           mess.save();
           // console.log(apartmentData.rent);
@@ -158,10 +133,10 @@ module.exports = {
       .catch((error) => serverError(res, error));
   },
 
-  removeBill(req, res) {
-    UserBillModel.updateMany(
+  removeExpense(req, res) {
+    ExpenseModel.updateMany(
       {},
-      { $pull: { userBill: { _id: req.params.userId } } }
+      { $pull: { expense: { _id: req.params.expId } } }
     )
       .then((result) => {
         if (result.modifiedCount) {

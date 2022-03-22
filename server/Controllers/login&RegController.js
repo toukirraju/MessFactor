@@ -1,4 +1,3 @@
-const Manager = require("../Database/Model/ManagerModel");
 const User = require("../Database/Model/UserModel");
 const Login = require("../Database/Model/LoginModel");
 const registerValidator = require("../validator/registerValidator");

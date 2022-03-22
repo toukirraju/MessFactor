@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const expenseSchema = new Schema({
-  messId: {
+  _id: {
     type: String,
     required: true,
   },

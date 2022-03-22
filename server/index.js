@@ -20,8 +20,7 @@ require("./Passport")(passport);
 
 app.use("/api", require("./routers/login&regRoutes"));
 app.use("/api", require("./routers/manager.routes"));
-app.use("/api", require("./routers/morderator.routes"));
-
+app.use("/api", require("./routers/common.routes"));
 app.get("/", (req, res) => {
   res.json({
     message: "hello server",
