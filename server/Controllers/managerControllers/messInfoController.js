@@ -1,4 +1,5 @@
 const MessInfo = require("../../Database/Model/MessInfoModel");
+const LoginDB = require("../../Database/Model/LoginModel");
 
 const { serverError, resourceError } = require("../../utils/error");
 
@@ -6,7 +7,7 @@ module.exports = {
   createMess(req, res) {
     let { messId, messName, totalSeats, perSeatRent, homeMaid, wifi } =
       req.body;
-
+    const { _id } = req.user;
     // let objData = new Object({
     //   perSeatRent,
     //   homeMaid,
@@ -17,11 +18,11 @@ module.exports = {
       _id: messId,
       messName,
       totalSeats,
-      utilityBills: {
-        perSeatRent,
-        homeMaid,
-        wifi,
-      },
+      // utilityBills: {
+      perSeatRent,
+      homeMaid,
+      wifi,
+      // },
     });
     MessInfo.findOne({ _id: messId })
       .then((mess) => {
@@ -29,10 +30,21 @@ module.exports = {
           messData
             .save()
             .then((response) => {
-              res.status(201).json({
-                message: "Mess Created Successfully",
-                mess: response.data,
-              });
+              LoginDB.findOneAndUpdate(
+                { _id: _id },
+                { $set: { messId: messId } },
+                { new: true }
+              )
+                .then((result) => {
+                  if (result) {
+                    res.status(201).json({
+                      message: "Mess Created Successfully",
+                    });
+                  } else {
+                    return resourceError(res, "Something went wrong!");
+                  }
+                })
+                .catch((error) => serverError(res, error));
             })
             .catch((error) => serverError(res, error));
         } else {
@@ -45,15 +57,14 @@ module.exports = {
   },
 
   getAllInfo(req, res) {
-    const messId = "124";
+    // const messId = "124";
+    const { messId } = req.user;
     MessInfo.findOne({ _id: messId })
       .then((mess) => {
         if (mess) {
           res.status(200).json(mess);
         } else {
-          res.status(200).json({
-            message: "Transaction Not Found",
-          });
+          return resourceError(res, "Mess Not Found!");
         }
       })
       .catch((error) => serverError(res, error));
@@ -61,7 +72,7 @@ module.exports = {
 
   updateMess(req, res) {
     // let { messId } = req.params;
-    const messId = "124";
+    const { messId } = req.user;
     MessInfo.findOneAndUpdate(
       { _id: messId },
       { $set: req.body },

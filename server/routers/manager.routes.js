@@ -21,11 +21,11 @@ const {
   updateBill,
 } = require("../Controllers/managerControllers/userBillController");
 
-router.post("/mess/create", createMess);
+router.post("/mess/create", authenticate, createMess);
 
-router.get("/mess", getAllInfo);
+router.get("/mess", authenticate, getAllInfo);
 
-router.put("/mess/:messId", updateMess);
+router.put("/mess/update", authenticate, updateMess);
 
 router.delete("/mess/:messId", removeMess);
 
@@ -37,9 +37,9 @@ router.get("/bill/budget", getTotalMealBudget);
 
 router.post("/bill/update", updateBill);
 
-router.post("/expense/create", createExpense);
+router.post("/expense/createExp", authenticate, createExpense);
 
-router.get("/expense/:month/:year", getMonthlyExpense);
+router.get("/expense/:month/:year", authenticate, getMonthlyExpense);
 
 router.get("/totalExpense/:month/:year", getMonthlyTotalExpense);
 

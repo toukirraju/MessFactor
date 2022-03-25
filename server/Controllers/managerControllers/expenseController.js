@@ -4,9 +4,11 @@ const { serverError, resourceError } = require("../../utils/error");
 
 module.exports = {
   createExpense(req, res) {
-    let { expType, expAmount, date } = req.body;
-    const messId = "111222";
-    let objData = new Object({ expType, expAmount, date });
+    const { messId } = req.user;
+    let { spender, expType, expAmount, date } = req.body;
+    // const messId = "111222";
+    console.log(req.body);
+    let objData = new Object({ spender, expType, expAmount, date });
     let expData = new ExpenseModel({
       _id: messId,
       expense: objData,
@@ -42,7 +44,8 @@ module.exports = {
 
   getMonthlyExpense(req, res) {
     // let { _id, role, homeId, homeOwner } = req.user;
-    const messId = "111222";
+    // const messId = "111222";
+    const { messId } = req.user;
     ExpenseModel.findOne({ _id: messId })
       .then((result) => {
         if (result != null) {

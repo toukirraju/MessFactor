@@ -1,13 +1,15 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./slices/auth";
 import messageReducer from "./slices/message";
-import apartmentReducer from "./slices/apartmentSlice";
+import reloadReducer from "./slices/reload";
+import messReducer from "./slices/messSlice";
 
 export default configureStore({
   reducer: {
     auth: authReducer,
     message: messageReducer,
     // moderator: moderatorReducer,
-    moderator: apartmentReducer,
+    reload: reloadReducer,
+    mess: messReducer,
   },
 });

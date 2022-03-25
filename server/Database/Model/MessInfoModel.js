@@ -13,17 +13,17 @@ const messInfoSchema = new Schema({
   totalSeats: {
     type: Number,
   },
-  utilityBills: {
-    perSeatRent: {
-      type: Number,
-    },
-    homeMaid: {
-      type: Number,
-    },
-    wifi: {
-      type: Number,
-    },
+  // utilityBills: {
+  perSeatRent: {
+    type: Number,
   },
+  homeMaid: {
+    type: Number,
+  },
+  wifi: {
+    type: Number,
+  },
+  // },
 });
 
 const MessInfoModel = mongoose.model("MessInfoModel", messInfoSchema);

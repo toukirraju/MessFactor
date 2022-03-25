@@ -8,6 +8,9 @@ const expenseSchema = new Schema({
   },
   expense: [
     {
+      spender: {
+        type: String,
+      },
       expType: {
         type: String,
       },
