@@ -6,11 +6,9 @@ import {
   allApartments,
   removeLevels,
 } from "../../../redux/slices/apartmentSlice";
-import CircularNavBarTop from "../circularNavBar/CircularNavBarTop";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import UpdateModal from "./UpdateModal";
-import CircularNavBarBottom from "../circularNavBar/CircularNavBarBottom";
 import { clearMessage } from "../../../redux/slices/message";
 
 const ApartmentDetails = () => {
@@ -63,8 +61,6 @@ const ApartmentDetails = () => {
   return (
     <>
       <div className="moderatorWraper">
-        <CircularNavBarTop />
-        <CircularNavBarBottom />
 
         <ToastContainer />
 

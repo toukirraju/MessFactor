@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import ApartmentDetails from "./pages/moderator/Apartments/ApartmentDetails";
 import ManagerRegistration from "./pages/Registration&Login/ManagerRegistration";
 import Login from "./pages/Registration&Login/Login";
+import User from "./pages/user/UserPage";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -34,6 +35,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/profile" element={<Profile />} />
+              <Route path="/user" element={<User />} />
               {user.type === "manager" ? (
                 <>
                   <Route path="/mod" element={<ModeratorPage />} />
