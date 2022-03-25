@@ -46,34 +46,29 @@ const NavigationBar = () => {
           <Navbar.Collapse id="navbarScroll">
             <Nav className="ms-auto my-lg-0" navbarScroll>
               <React.Fragment>
-                <Nav.Link eventKey="1" as={Link} to="/" className="navLink">
-                  {/* <Link > */}
-                  Home
-                  {/* </Link> */}
-                </Nav.Link>
-                {showManagerBoard && (
-                  <Nav.Link
-                    eventKey="2"
-                    as={Link}
-                    to="/mod"
-                    className="navLink"
-                  >
-                    {/* <Link > */}
-                    Moderator Board
-                    {/* </Link> */}
-                  </Nav.Link>
-                )}
-
                 {currentUser && (
                   <Nav.Link
                     eventKey="4"
                     as={Link}
-                    to="/user"
+                    to="/dashboard"
                     className="navLink"
                   >
-                    User
+                    Dashboard
                   </Nav.Link>
                 )}
+                {showManagerBoard && (
+                  <Nav.Link
+                    eventKey="2"
+                    as={Link}
+                    to="/manager"
+                    className="navLink"
+                  >
+                    {/* <Link > */}
+                    Manager
+                    {/* </Link> */}
+                  </Nav.Link>
+                )}
+
 
                 {currentUser ? (
                   <div className="navbar-nav ml-auto">

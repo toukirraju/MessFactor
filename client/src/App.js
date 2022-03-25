@@ -3,14 +3,15 @@ import "./app.css";
 import NavigationBar from "./components/navigationBar/NavigationBar";
 import Home from "./pages/home/Home";
 import Profile from "./pages/profile/Profile";
-import ModeratorPage from "./pages/moderator/ModeratorPage";
+import Manager from "./pages/manager/Manager";
 import AuthVerify from "./common/AuthVerify";
 import { logout } from "./redux/slices/auth";
 import { useDispatch, useSelector } from "react-redux";
-import ApartmentDetails from "./pages/moderator/Apartments/ApartmentDetails";
 import ManagerRegistration from "./pages/Registration&Login/ManagerRegistration";
 import Login from "./pages/Registration&Login/Login";
+import Dashboard from "./pages/dashboard/Dashboard";
 
+import "react-datepicker/dist/react-datepicker.css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import UserRegistration from "./pages/Registration&Login/UserRegistration";
@@ -34,10 +35,10 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/profile" element={<Profile />} />
+              <Route path="/dashboard" element={<Dashboard />} />
               {user.type === "manager" ? (
                 <>
-                  <Route path="/mod" element={<ModeratorPage />} />
-                  <Route path="/apartment" element={<ApartmentDetails />} />
+                  <Route path="/manager" element={<Manager />} />
                 </>
               ) : (
                 <></>
