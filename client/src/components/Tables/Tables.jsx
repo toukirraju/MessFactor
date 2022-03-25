@@ -1,8 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { AgGridReact } from 'ag-grid-react';
 
-const Tables = () => {
+import 'ag-grid-community/dist/styles/ag-grid.css';
+import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
+
+const Tables = (props) => {
+  const rowData = props.rowData;
+  const columnDefs = props.columnDefs;
+
   return (
-    <div>Tables</div>
+    <div className="ag-theme-alpine" style={{height: "296px", width: "100%"}}>
+        <AgGridReact
+            rowData={rowData}
+            columnDefs={columnDefs}/>
+    </div>
   )
 }
 

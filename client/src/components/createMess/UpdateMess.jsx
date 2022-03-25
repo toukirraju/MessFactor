@@ -3,27 +3,31 @@ import {Modal} from "react-bootstrap";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
-const CreateExpense = (props) => {
+
+const UpdateMess = (props) => {
   const [loading, setLoading] = useState(false);
   const initialValues = {
-    date:"",
-    expType:"",
-    expAmount:0,
-    spender:""
+    messId: "",
+    messName:"",
+    totalSeats:0,
+    perSeatRent:0,
+    homeMaid:0,
+    wifi:0
   };
 
   const validationSchema = Yup.object().shape({
-    date: Yup.date().required("This field is required!"),
-    expType: Yup.string().required("This field is required!"),
-    expAmount: Yup.number().required("This field is required!"),
-    spender: Yup.string().required("This field is required!"),
+    messId: Yup.string().required("This field is required!"),
+    messName: Yup.string().required("This field is required!"),
+    totalSeats: Yup.number().required("This field is required!"),
+    perSeatRent: Yup.number().required("This field is required!"),
+    homeMaid: Yup.number().required("This field is required!"),
+    wifi: Yup.number().required("This field is required!"),
   });
   
   const handleSubmit = (formValue) => {
     setLoading(true);
     console.log(formValue);
   }
-
 
 
   return (
@@ -39,7 +43,7 @@ const CreateExpense = (props) => {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-      <Formik
+          <Formik
               initialValues={initialValues}
               validationSchema={validationSchema}
               onSubmit={handleSubmit}
@@ -47,13 +51,13 @@ const CreateExpense = (props) => {
               <Form>
                 <div className="form-group mb-3">
                   <Field
-                    type="date"
-                    placeholder="Enter Date"
-                    name="date"
+                    type="text"
+                    placeholder="Enter your messID"
+                    name="messId"
                     className="form-control"
                   />
                   <ErrorMessage
-                    name="date"
+                    name="messId"
                     component="div"
                     className="alert alert-danger"
                   />
@@ -62,12 +66,12 @@ const CreateExpense = (props) => {
                 <div className="form-group mb-3">
                   <Field
                     type="text"
-                    placeholder="Expense type"
-                    name="expType"
+                    placeholder="Enter your messName"
+                    name="messName"
                     className="form-control"
                   />
                   <ErrorMessage
-                    name="expType"
+                    name="messName"
                     component="div"
                     className="alert alert-danger"
                   />
@@ -76,12 +80,12 @@ const CreateExpense = (props) => {
                 <div className="form-group mb-3">
                   <Field
                     type="number"
-                    placeholder="enter total expense"
-                    name="expAmount"
+                    placeholder="enter total seats available"
+                    name="totalSeats"
                     className="form-control"
                   />
                   <ErrorMessage
-                    name="expAmount"
+                    name="totalSeats"
                     component="div"
                     className="alert alert-danger"
                   />
@@ -89,18 +93,45 @@ const CreateExpense = (props) => {
                 
                 <div className="form-group mb-3">
                   <Field
-                    type="text"
-                    placeholder="enter spender's name"
-                    name="spender"
+                    type="number"
+                    placeholder="enter per seat rent"
+                    name="perSeatRent"
                     className="form-control"
                   />
                   <ErrorMessage
-                    name="spender"
+                    name="perSeatRent"
                     component="div"
                     className="alert alert-danger"
                   />
                 </div>
                 
+                <div className="form-group mb-3">
+                  <Field
+                    type="number"
+                    placeholder="enter home maid bill"
+                    name="homeMaid"
+                    className="form-control"
+                  />
+                  <ErrorMessage
+                    name="homeMaid"
+                    component="div"
+                    className="alert alert-danger"
+                  />
+                </div>
+                
+                <div className="form-group mb-3">
+                  <Field
+                    type="number"
+                    placeholder="enter wifi bill"
+                    name="wifi"
+                    className="form-control"
+                  />
+                  <ErrorMessage
+                    name="wifi"
+                    component="div"
+                    className="alert alert-danger"
+                  />
+                </div>
                 <input
                   type="submit"
                   className="btn btn-primary"
@@ -109,9 +140,11 @@ const CreateExpense = (props) => {
               </Form>
             </Formik>
 
+
+
       </Modal.Body>
     </Modal>
   )
 }
 
-export default CreateExpense;
+export default UpdateMess;

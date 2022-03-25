@@ -3,20 +3,20 @@ import {Modal} from "react-bootstrap";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
-const CreateExpense = (props) => {
+const CreateBill = (props) => {
   const [loading, setLoading] = useState(false);
   const initialValues = {
     date:"",
-    expType:"",
-    expAmount:0,
-    spender:""
+    userId:"",
+    rent:0,
+    wifi:0,
+    currentBill:0,
+    mealBudget:0
   };
 
   const validationSchema = Yup.object().shape({
     date: Yup.date().required("This field is required!"),
-    expType: Yup.string().required("This field is required!"),
-    expAmount: Yup.number().required("This field is required!"),
-    spender: Yup.string().required("This field is required!"),
+    userId: Yup.string().required("This field is required!")
   });
   
   const handleSubmit = (formValue) => {
@@ -62,12 +62,12 @@ const CreateExpense = (props) => {
                 <div className="form-group mb-3">
                   <Field
                     type="text"
-                    placeholder="Expense type"
-                    name="expType"
+                    placeholder="Enter User Id"
+                    name="userId"
                     className="form-control"
                   />
                   <ErrorMessage
-                    name="expType"
+                    name="userId"
                     component="div"
                     className="alert alert-danger"
                   />
@@ -76,26 +76,51 @@ const CreateExpense = (props) => {
                 <div className="form-group mb-3">
                   <Field
                     type="number"
-                    placeholder="enter total expense"
-                    name="expAmount"
+                    placeholder="enter rent"
+                    name="rent"
                     className="form-control"
                   />
                   <ErrorMessage
-                    name="expAmount"
+                    name="rent"
                     component="div"
                     className="alert alert-danger"
                   />
                 </div>
-                
                 <div className="form-group mb-3">
                   <Field
-                    type="text"
-                    placeholder="enter spender's name"
-                    name="spender"
+                    type="number"
+                    placeholder="enter wifi"
+                    name="wifi"
                     className="form-control"
                   />
                   <ErrorMessage
-                    name="spender"
+                    name="wifi"
+                    component="div"
+                    className="alert alert-danger"
+                  />
+                </div>
+                <div className="form-group mb-3">
+                  <Field
+                    type="number"
+                    placeholder="enter electricity bill"
+                    name="currentBill"
+                    className="form-control"
+                  />
+                  <ErrorMessage
+                    name="currentBill"
+                    component="div"
+                    className="alert alert-danger"
+                  />
+                </div>
+                <div className="form-group mb-3">
+                  <Field
+                    type="number"
+                    placeholder="enter meal budget"
+                    name="mealBudget"
+                    className="form-control"
+                  />
+                  <ErrorMessage
+                    name="mealBudget"
                     component="div"
                     className="alert alert-danger"
                   />
@@ -114,4 +139,4 @@ const CreateExpense = (props) => {
   )
 }
 
-export default CreateExpense;
+export default CreateBill;

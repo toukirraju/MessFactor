@@ -1,16 +1,14 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./app.css";
 import NavigationBar from "./components/navigationBar/NavigationBar";
-import Home from "./pages/home/Home";
 import Profile from "./pages/profile/Profile";
-import ModeratorPage from "./pages/moderator/ModeratorPage";
+import Manager from "./pages/manager/Manager";
 import AuthVerify from "./common/AuthVerify";
 import { logout } from "./redux/slices/auth";
 import { useDispatch, useSelector } from "react-redux";
-import ApartmentDetails from "./pages/moderator/Apartments/ApartmentDetails";
 import ManagerRegistration from "./pages/Registration&Login/ManagerRegistration";
 import Login from "./pages/Registration&Login/Login";
-import User from "./pages/user/UserPage";
+import Dashboard from "./pages/dashboard/Dashboard";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -32,14 +30,12 @@ function App() {
         <Routes>
           {isLoggedIn ? (
             <>
-              <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/profile" element={<Profile />} />
-              <Route path="/user" element={<User />} />
+              <Route path="/dashboard" element={<Dashboard/>} />
               {user.type === "manager" ? (
                 <>
-                  <Route path="/mod" element={<ModeratorPage />} />
-                  <Route path="/apartment" element={<ApartmentDetails />} />
+                  <Route path="/manager" element={<Manager />} />
                 </>
               ) : (
                 <></>
@@ -47,7 +43,6 @@ function App() {
             </>
           ) : (
             <>
-              <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/manRegister" element={<ManagerRegistration />} />
               <Route path="/userRegister" element={<UserRegistration />} />

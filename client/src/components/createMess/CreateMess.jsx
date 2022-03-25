@@ -1,8 +1,35 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Modal} from "react-bootstrap";
+import { Formik, Field, Form, ErrorMessage } from "formik";
+import * as Yup from "yup";
 
 
 const CreateMess = (props) => {
+  const [loading, setLoading] = useState(false);
+  const initialValues = {
+    messId: "",
+    messName:"",
+    totalSeats:0,
+    perSeatRent:0,
+    homeMaid:0,
+    wifi:0
+  };
+
+  const validationSchema = Yup.object().shape({
+    messId: Yup.string().required("This field is required!"),
+    messName: Yup.string().required("This field is required!"),
+    totalSeats: Yup.number().required("This field is required!"),
+    perSeatRent: Yup.number().required("This field is required!"),
+    homeMaid: Yup.number().required("This field is required!"),
+    wifi: Yup.number().required("This field is required!"),
+  });
+  
+  const handleSubmit = (formValue) => {
+    setLoading(true);
+    console.log(formValue);
+  }
+
+
   return (
     <Modal
       {...props}
@@ -16,27 +43,105 @@ const CreateMess = (props) => {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-      <form>
-          <div class="mb-3">
-              <input type="text" class="form-control" placeholder="Enter your messID"/>
-          </div>
-          <div class="mb-3">
-              <input type="text" class="form-control" placeholder="Enter your messName"/>
-          </div>
-          <div class="mb-3">
-              <input type="number" class="form-control" placeholder="enter total seats available"/>
-          </div>
-          <div class="mb-3">
-              <input type="number" class="form-control" placeholder="enter per seat rent"/>
-          </div>
-          <div class="mb-3">
-              <input type="number" class="form-control" placeholder="enter home maid bill"/>
-          </div>
-          <div class="mb-3">
-              <input type="number" class="form-control" placeholder="enter wifi bill"/>
-          </div>
-          <button type="submit" class="btn btn-outline-primary">Submit</button>
-      </form>
+          <Formik
+              initialValues={initialValues}
+              validationSchema={validationSchema}
+              onSubmit={handleSubmit}
+            >
+              <Form>
+                <div className="form-group mb-3">
+                  <Field
+                    type="text"
+                    placeholder="Enter your messID"
+                    name="messId"
+                    className="form-control"
+                  />
+                  <ErrorMessage
+                    name="messId"
+                    component="div"
+                    className="alert alert-danger"
+                  />
+                </div>
+
+                <div className="form-group mb-3">
+                  <Field
+                    type="text"
+                    placeholder="Enter your messName"
+                    name="messName"
+                    className="form-control"
+                  />
+                  <ErrorMessage
+                    name="messName"
+                    component="div"
+                    className="alert alert-danger"
+                  />
+                </div>
+
+                <div className="form-group mb-3">
+                  <Field
+                    type="number"
+                    placeholder="enter total seats available"
+                    name="totalSeats"
+                    className="form-control"
+                  />
+                  <ErrorMessage
+                    name="totalSeats"
+                    component="div"
+                    className="alert alert-danger"
+                  />
+                </div>
+                
+                <div className="form-group mb-3">
+                  <Field
+                    type="number"
+                    placeholder="enter per seat rent"
+                    name="perSeatRent"
+                    className="form-control"
+                  />
+                  <ErrorMessage
+                    name="perSeatRent"
+                    component="div"
+                    className="alert alert-danger"
+                  />
+                </div>
+                
+                <div className="form-group mb-3">
+                  <Field
+                    type="number"
+                    placeholder="enter home maid bill"
+                    name="homeMaid"
+                    className="form-control"
+                  />
+                  <ErrorMessage
+                    name="homeMaid"
+                    component="div"
+                    className="alert alert-danger"
+                  />
+                </div>
+                
+                <div className="form-group mb-3">
+                  <Field
+                    type="number"
+                    placeholder="enter wifi bill"
+                    name="wifi"
+                    className="form-control"
+                  />
+                  <ErrorMessage
+                    name="wifi"
+                    component="div"
+                    className="alert alert-danger"
+                  />
+                </div>
+                <input
+                  type="submit"
+                  className="btn btn-primary"
+                  value="Submit"
+                />
+              </Form>
+            </Formik>
+
+
+
       </Modal.Body>
     </Modal>
   )
