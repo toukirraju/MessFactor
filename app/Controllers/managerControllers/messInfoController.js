@@ -18,10 +18,10 @@ module.exports = {
       _id: messId,
       messName,
       totalSeats,
-      // utilityBills: {
       perSeatRent,
       homeMaid,
       wifi,
+      currentBill: 0,
       // },
     });
     MessInfo.findOne({ _id: messId })
@@ -90,6 +90,17 @@ module.exports = {
     // let { messId } = req.params;
     const messId = "124";
     MessInfo.findOneAndDelete({ _id: messId })
+      .then((result) => {
+        res.status(200).json({
+          message: "Delete successfully",
+        });
+      })
+      .catch((error) => serverError(res, error));
+  },
+  removeUser(req, res) {
+    let { _id } = req.params;
+    // const messId = "124";
+    LoginDB.findOneAndDelete({ _id })
       .then((result) => {
         res.status(200).json({
           message: "Delete successfully",

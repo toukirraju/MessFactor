@@ -1,15 +1,28 @@
 const UserBillModel = require("../../Database/Model/UserBillModel");
+const LoginDB = require("../../Database/Model/LoginModel");
 
 const { serverError, resourceError } = require("../../utils/error");
 
 module.exports = {
   createBill(req, res) {
-    let { userId, rent, wifi, currentBill, mealBudget, date } = req.body;
-    const messId = "111222";
-    let objData = new Object({
+    let {
       userId,
+      userName,
       rent,
       wifi,
+      currentBill,
+      homeMaid,
+      mealBudget,
+      date,
+    } = req.body;
+    // const messId = "111222";
+    const { messId } = req.user;
+    let objData = new Object({
+      userId,
+      userName,
+      rent,
+      wifi,
+      homeMaid,
       currentBill,
       mealBudget,
       date,
@@ -51,7 +64,8 @@ module.exports = {
 
   getMonthlyBill(req, res) {
     // let { _id, role, homeId, homeOwner } = req.user;
-    const messId = "111222";
+    // const messId = "111222";
+    const { messId } = req.user;
     UserBillModel.findOne({ _id: messId })
       .then((result) => {
         if (result != null) {
@@ -127,7 +141,8 @@ module.exports = {
   },
 
   updateBill(req, res) {
-    const messId = "111222";
+    // const messId = "111222";
+    const { messId } = req.user;
     UserBillModel.findOne({ _id: messId })
       .then((mess) => {
         if (mess) {
@@ -141,16 +156,14 @@ module.exports = {
 
           billData.rent = req.body.rent;
           billData.wifi = req.body.wifi;
+          billData.homeMaid = req.body.homeMaid;
           billData.currentBill = req.body.currentBill;
           billData.mealBudget = req.body.mealBudget;
 
           mess.save();
-          // console.log(apartmentData.rent);
           res.status(200).json({
             message: "Update Successfully",
-            // Floors: response.data,
           });
-          // res.send(apartmentData);
         } else {
           return resourceError(res, "Somthing went wrong");
         }
@@ -161,7 +174,7 @@ module.exports = {
   removeBill(req, res) {
     UserBillModel.updateMany(
       {},
-      { $pull: { userBill: { _id: req.params.userId } } }
+      { $pull: { userBill: { _id: req.params._id } } }
     )
       .then((result) => {
         if (result.modifiedCount) {
@@ -172,6 +185,20 @@ module.exports = {
           // res.send("Successfully Removed Apartment");
         } else {
           return resourceError(res, "Somthing went wrong");
+        }
+      })
+      .catch((error) => serverError(res, error));
+  },
+
+  getAllUsers(req, res) {
+    // const messId = "101";
+    const { messId } = req.user;
+    LoginDB.find({ messId })
+      .then((users) => {
+        if (users) {
+          res.status(200).json(users);
+        } else {
+          return resourceError(res, "No User found");
         }
       })
       .catch((error) => serverError(res, error));

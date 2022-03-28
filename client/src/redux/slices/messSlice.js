@@ -7,8 +7,7 @@ export const createMess = createAsyncThunk(
   "man/createMess",
   async (messInfo, thunkAPI) => {
     try {
-      const data = await ManagerService.createMess(messInfo);
-      // return { apatrments: data };
+      await ManagerService.createMess(messInfo);
     } catch (error) {
       const message =
         (error.response &&
@@ -100,11 +99,170 @@ export const getMonthlyExpense = createAsyncThunk(
   }
 );
 
+export const updateExpense = createAsyncThunk(
+  "man/updateExpense",
+  async (updatedData, thunkAPI) => {
+    try {
+      const data = await ManagerService.updateExpense(updatedData);
+      return data;
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+);
+
+////////////////////////// User  ////////////////////////
+
+export const getUser = createAsyncThunk(
+  "man/getUser",
+  async (args, thunkAPI) => {
+    try {
+      const data = await ManagerService.getAllUser();
+
+      return data;
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+);
+
+export const removeUser = createAsyncThunk(
+  "man/removeUser",
+  async (_id, thunkAPI) => {
+    try {
+      await ManagerService.removeUser(_id);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+);
+
+////////////////////////// Bills  ////////////////////////
+
+export const createBill = createAsyncThunk(
+  "man/createBill",
+  async (billData, thunkAPI) => {
+    try {
+      await ManagerService.createBill(billData);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+);
+
+export const getMonthlyBill = createAsyncThunk(
+  "man/getMonthlyBill",
+  async ({ month, year }, thunkAPI) => {
+    try {
+      const data = await ManagerService.getMonthlyBill({ month, year });
+
+      return data;
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+);
+
+export const updateBill = createAsyncThunk(
+  "man/updateBill",
+  async (updatedData, thunkAPI) => {
+    try {
+      const data = await ManagerService.updateBill(updatedData);
+      return data;
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+);
+
+export const removeBill = createAsyncThunk(
+  "man/removeBill",
+  async (_id, thunkAPI) => {
+    try {
+      await ManagerService.removeBill(_id);
+      // return { apatrments: data };
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+);
+
+////////////////////////// Meal  ////////////////////////
+export const updateMeal = createAsyncThunk(
+  "man/updateMeal",
+  async (updatedData, thunkAPI) => {
+    try {
+      const data = await ManagerService.updateMeal(updatedData);
+      return data;
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+);
+
 const initialState = {
   isSuccess: false,
   isPending: false,
   messInfo: {},
   monthlyExpense: [],
+  monthlyBill: [],
+  allusers: [],
 };
 
 const managerSlice = createSlice({
@@ -177,23 +335,112 @@ const managerSlice = createSlice({
       state.monthlyExpense = [];
     },
 
-    // [addNewApartment.fulfilled]: (state, action) => {
-    //   state.isSuccess = true;
-    //   state.isAdded = true;
-    //   // state.apatrments = action.payload;
-    // },
-    // [addNewApartment.rejected]: (state, action) => {
-    //   state.isSuccess = false;
-    //   // state.apatrments = null;
-    // },
+    [updateExpense.pending]: (state, action) => {
+      state.isPending = true;
+    },
+    [updateExpense.fulfilled]: (state, action) => {
+      state.isSuccess = true;
+      state.isPending = false;
+    },
+    [updateExpense.rejected]: (state, action) => {
+      state.isSuccess = false;
+      state.isPending = false;
+    },
 
-    // [removeLevels.fulfilled]: (state, action) => {
-    //   state.isSuccess = true;
-    //   state.isAdded = true;
-    // },
-    // [removeLevels.rejected]: (state, action) => {
-    //   state.isSuccess = false;
-    // },
+    ////////////////////////// user  ////////////////////////
+    [getUser.pending]: (state, action) => {
+      state.isPending = true;
+      state.isSuccess = false;
+    },
+    [getUser.fulfilled]: (state, action) => {
+      state.isSuccess = true;
+      state.isPending = false;
+      state.allusers = action.payload;
+    },
+    [getUser.rejected]: (state, action) => {
+      state.isSuccess = false;
+      state.isPending = false;
+      state.allusers = [];
+    },
+
+    [removeUser.pending]: (state, action) => {
+      state.isPending = true;
+      state.isSuccess = false;
+    },
+    [removeUser.fulfilled]: (state, action) => {
+      state.isSuccess = true;
+      state.isPending = false;
+    },
+    [removeUser.rejected]: (state, action) => {
+      state.isSuccess = false;
+      state.isPending = false;
+    },
+
+    ////////////////////////// Bills  ////////////////////////
+    [createBill.pending]: (state, action) => {
+      state.isPending = true;
+      state.isSuccess = false;
+    },
+    [createBill.fulfilled]: (state, action) => {
+      state.isSuccess = true;
+      state.isPending = false;
+    },
+    [createBill.rejected]: (state, action) => {
+      state.isSuccess = false;
+      state.isPending = false;
+    },
+
+    [getMonthlyBill.pending]: (state, action) => {
+      state.isPending = true;
+    },
+    [getMonthlyBill.fulfilled]: (state, action) => {
+      state.isSuccess = true;
+      state.isPending = false;
+      state.monthlyBill = action.payload;
+    },
+    [getMonthlyBill.rejected]: (state, action) => {
+      state.isSuccess = false;
+      state.isPending = false;
+      state.monthlyBill = [];
+    },
+
+    [updateBill.pending]: (state, action) => {
+      state.isPending = true;
+    },
+    [updateBill.fulfilled]: (state, action) => {
+      state.isSuccess = true;
+      state.isPending = false;
+    },
+    [updateBill.rejected]: (state, action) => {
+      state.isSuccess = false;
+      state.isPending = false;
+    },
+    [removeBill.pending]: (state, action) => {
+      state.isPending = true;
+      state.isSuccess = false;
+    },
+    [removeBill.fulfilled]: (state, action) => {
+      state.isSuccess = true;
+      state.isPending = false;
+    },
+    [removeBill.rejected]: (state, action) => {
+      state.isSuccess = false;
+      state.isPending = false;
+    },
+
+    ////////////////////////// Bills  ////////////////////////
+
+    [updateMeal.pending]: (state, action) => {
+      state.isPending = true;
+    },
+    [updateMeal.fulfilled]: (state, action) => {
+      state.isSuccess = true;
+      state.isPending = false;
+    },
+    [updateMeal.rejected]: (state, action) => {
+      state.isSuccess = false;
+      state.isPending = false;
+    },
   },
 });
 

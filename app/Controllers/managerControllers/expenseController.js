@@ -7,7 +7,7 @@ module.exports = {
     const { messId } = req.user;
     let { spender, expType, expAmount, date } = req.body;
     // const messId = "111222";
-    console.log(req.body);
+    // console.log(req.body);
     let objData = new Object({ spender, expType, expAmount, date });
     let expData = new ExpenseModel({
       _id: messId,
@@ -107,7 +107,8 @@ module.exports = {
   },
 
   updateExpense(req, res) {
-    const messId = "111222";
+    // const messId = "111222";
+    const { messId } = req.user;
     ExpenseModel.findOne({ _id: messId })
       .then((mess) => {
         if (mess) {
@@ -118,7 +119,7 @@ module.exports = {
               return (expData = i);
             }
           });
-
+          expData.spender = req.body.spender;
           expData.expType = req.body.expType;
           expData.expAmount = req.body.expAmount;
 

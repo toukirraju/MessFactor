@@ -23,6 +23,9 @@ const messInfoSchema = new Schema({
   wifi: {
     type: Number,
   },
+  currentBill: {
+    type: Number,
+  },
   // },
 });
 

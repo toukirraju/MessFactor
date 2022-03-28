@@ -1,7 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./app.css";
 import NavigationBar from "./components/navigationBar/NavigationBar";
-import Home from "./pages/home/Home";
 import Profile from "./pages/profile/Profile";
 import Manager from "./pages/manager/Manager";
 import AuthVerify from "./common/AuthVerify";
@@ -32,7 +31,7 @@ function App() {
         <Routes>
           {isLoggedIn ? (
             <>
-              <Route path="/" element={<Home />} />
+              {/* <Route path="/" element={<Home />} /> */}
               <Route path="/login" element={<Login />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/dashboard" element={<Dashboard />} />
@@ -46,7 +45,7 @@ function App() {
             </>
           ) : (
             <>
-              <Route path="/" element={<Home />} />
+              {/* <Route path="/" element={<Home />} /> */}
               <Route path="/login" element={<Login />} />
               <Route path="/manRegister" element={<ManagerRegistration />} />
               <Route path="/userRegister" element={<UserRegistration />} />

@@ -2,7 +2,7 @@ import axios from "axios";
 import authHeader from "./auth-header";
 const API_URL = "http://localhost:4000/api/";
 
-/////////////
+////////////////// mess //////////////////
 const createMess = (messInfo) => {
   return axios
     .post(API_URL + "mess/create", messInfo, { headers: authHeader() })
@@ -27,10 +27,9 @@ const updateMessInfo = (updatedData) => {
     });
 };
 
-/////////////
+////////////////// Expense ////////////////////////
 
 const createExpense = (expenseInfo) => {
-  console.log(expenseInfo);
   return axios
     .post(API_URL + "expense/createExp", expenseInfo, { headers: authHeader() })
     .then((response) => {
@@ -46,40 +45,83 @@ const getMonthlyExpense = ({ month, year }) => {
     });
 };
 
-/////////////
-const addApartment = (apartData) => {
+const updateExpense = (updatedData) => {
   return axios
-    .post(API_URL + "addApartment", apartData, { headers: authHeader() })
+    .post(API_URL + "expense/update", updatedData, { headers: authHeader() })
     .then((response) => {
       return response.data;
     });
 };
-/////////////
 
-/////////////
-const updateApartment = (updatedData) => {
+///////////// User /////////////////
+const getAllUser = () => {
   return axios
-    .post(API_URL + "updateApartment", updatedData, { headers: authHeader() })
+    .get(API_URL + `users`, { headers: authHeader() })
     .then((response) => {
       return response.data;
     });
 };
-/////////////
+
+const removeUser = (_id) => {
+  return axios.delete(API_URL + `user/${_id}`, { headers: authHeader() });
+};
+////////////////// Bill //////////////////////
+
+const createBill = (billData) => {
+  return axios
+    .post(API_URL + "bill/create", billData, { headers: authHeader() })
+    .then((response) => {
+      return response.data;
+    });
+};
+
+const getMonthlyBill = ({ month, year }) => {
+  return axios
+    .get(API_URL + `bill/${month}/${year}`, { headers: authHeader() })
+    .then((response) => {
+      return response.data;
+    });
+};
+
+const updateBill = (updatedData) => {
+  return axios
+    .post(API_URL + "bill/update", updatedData, { headers: authHeader() })
+    .then((response) => {
+      return response.data;
+    });
+};
+
+const removeBill = (_id) => {
+  return axios.delete(API_URL + `bill/${_id}`, { headers: authHeader() });
+};
+
+//////////////////// Meal //////////////////////
+const updateMeal = (updatedData) => {
+  return axios
+    .post(API_URL + "meal/update", updatedData, { headers: authHeader() })
+    .then((response) => {
+      return response.data;
+    });
+};
 
 /////////////
-const removeApartment = (apartmentId) => {
-  return axios.delete(API_URL + `${apartmentId}`, { headers: authHeader() });
-};
+
 /////////////
 
 const managerService = {
   createMess,
-  createExpense,
-  addApartment,
   getMessInfo,
+  createExpense,
+  getAllUser,
   getMonthlyExpense,
+  updateExpense,
+  getMonthlyBill,
   updateMessInfo,
-  removeApartment,
+  createBill,
+  updateBill,
+  updateMeal,
+  removeUser,
+  removeBill,
 };
 
 export default managerService;
