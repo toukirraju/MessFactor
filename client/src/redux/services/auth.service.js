@@ -1,7 +1,8 @@
 import axios from "axios";
 import jwtDecode from "jwt-decode";
 
-const API_URL = "http://localhost:4000/api/";
+// const API_URL = "http://localhost:4000/api/";
+const API_URL = "https://messfactor.herokuapp.com/api/";
 
 const managerRegister = (user) => {
   return axios.post(API_URL + "manager_register", user);
