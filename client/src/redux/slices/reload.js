@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { setMessage } from "./message";
-import ManagerService from "../services/manager.service";
 
 export const reloading = createAsyncThunk("reload", async (args, thunkAPI) => {
   try {

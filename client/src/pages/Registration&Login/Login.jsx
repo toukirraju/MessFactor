@@ -36,7 +36,7 @@ const Login = () => {
       .unwrap()
       .then(() => {
         alert("login successfull");
-        history("/");
+        history("/dashboard");
         // window.location.reload();
       })
       .catch(() => {
@@ -47,7 +47,7 @@ const Login = () => {
   if (isLoggedIn) {
     return (
       <Routes>
-        <Route path="*" element={<Navigate to="/" />} />
+        <Route path="*" element={<Navigate to="/dashboard" />} />
       </Routes>
     );
   }

@@ -17,6 +17,7 @@ const UpdateMess = (props) => {
     perSeatRent: "",
     homeMaid: "",
     wifi: "",
+    currentBill: 0,
   });
   // const initialValues = {
   //   messId: _id,
@@ -76,6 +77,7 @@ const UpdateMess = (props) => {
         >
           <Form>
             <div className="form-group mb-3">
+              <label>Mess ID</label>
               <Field
                 type="text"
                 placeholder="Enter your messID"
@@ -91,6 +93,7 @@ const UpdateMess = (props) => {
             </div>
 
             <div className="form-group mb-3">
+              <label>Mess Name</label>
               <Field
                 type="text"
                 placeholder="Enter your messName"
@@ -105,9 +108,10 @@ const UpdateMess = (props) => {
             </div>
 
             <div className="form-group mb-3">
+              <label>Total Seats</label>
               <Field
                 type="number"
-                placeholder="enter total seats available"
+                placeholder="enter total seats"
                 name="totalSeats"
                 className="form-control"
               />
@@ -119,6 +123,7 @@ const UpdateMess = (props) => {
             </div>
 
             <div className="form-group mb-3">
+              <label>Per seat rent</label>
               <Field
                 type="number"
                 placeholder="enter per seat rent"
@@ -133,6 +138,7 @@ const UpdateMess = (props) => {
             </div>
 
             <div className="form-group mb-3">
+              <label>Home maid bill</label>
               <Field
                 type="number"
                 placeholder="enter home maid bill"
@@ -147,6 +153,7 @@ const UpdateMess = (props) => {
             </div>
 
             <div className="form-group mb-3">
+              <label>Wifi</label>
               <Field
                 type="number"
                 placeholder="enter wifi bill"
@@ -155,6 +162,20 @@ const UpdateMess = (props) => {
               />
               <ErrorMessage
                 name="wifi"
+                component="div"
+                className="alert alert-danger"
+              />
+            </div>
+            <div className="form-group mb-3">
+              <label>Per User Elecrticity Bill</label>
+              <Field
+                type="number"
+                placeholder="Per User Elecrticity Bill"
+                name="currentBill"
+                className="form-control"
+              />
+              <ErrorMessage
+                name="currentBill"
                 component="div"
                 className="alert alert-danger"
               />

@@ -6,7 +6,7 @@ import { clearMessage } from "../../redux/slices/message";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import { toast } from "react-toastify";
 // import "react-toastify/dist/ReactToastify.css";
-import { validationSchema } from "../../validation/LoginAndReg";
+import { validationSchema } from "../../validation/ManagerReg";
 
 const ManagerRegistration = () => {
   const [successful, setSuccessful] = useState(false);

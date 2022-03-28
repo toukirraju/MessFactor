@@ -69,7 +69,6 @@ const NavigationBar = () => {
                   </Nav.Link>
                 )}
 
-
                 {currentUser ? (
                   <div className="navbar-nav ml-auto">
                     <Nav.Link
@@ -87,11 +86,11 @@ const NavigationBar = () => {
                       eventKey="6"
                       as={Link}
                       to="login"
-                      className="navLink"
+                      className="navLink bg-danger text-white"
                       onClick={logOut}
                     >
                       {/* <Link > */}
-                      logout
+                      LogOut
                       {/* </Link> */}
                     </Nav.Link>
                   </div>

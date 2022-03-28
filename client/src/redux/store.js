@@ -3,6 +3,7 @@ import authReducer from "./slices/auth";
 import messageReducer from "./slices/message";
 import reloadReducer from "./slices/reload";
 import messReducer from "./slices/messSlice";
+import userReducer from "./slices/userSlice";
 
 export default configureStore({
   reducer: {
@@ -11,5 +12,6 @@ export default configureStore({
     // moderator: moderatorReducer,
     reload: reloadReducer,
     mess: messReducer,
+    userInfo: userReducer,
   },
 });

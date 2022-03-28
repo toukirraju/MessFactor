@@ -1,29 +1,63 @@
 import axios from "axios";
 import authHeader from "./auth-header";
 
-const API_URL = "http://localhost:8080/api/test/";
+const API_URL = "http://localhost:4000/api/";
 
-const getPublicContent = () => {
-  return axios.get(API_URL + "all");
+/////////////
+const createMeal = (mealData) => {
+  return axios
+    .post(API_URL + "meal/create", mealData, { headers: authHeader() })
+    .then((response) => {
+      return response.data;
+    });
 };
 
-const getUserBoard = () => {
-  return axios.get(API_URL + "user", { headers: authHeader() });
+const getDailyMeals = () => {
+  return axios
+    .get(API_URL + `dailyMeal`, { headers: authHeader() })
+    .then((response) => {
+      return response.data;
+    });
 };
 
-const getModeratorBoard = () => {
-  return axios.get(API_URL + "mod", { headers: authHeader() });
+const getMonthlyMeal = () => {
+  return axios
+    .get(API_URL + `monthlyMeal`, { headers: authHeader() })
+    .then((response) => {
+      return response.data;
+    });
 };
 
-const getAdminBoard = () => {
-  return axios.get(API_URL + "admin", { headers: authHeader() });
+const getMonthlyAllMeal = ({ month, year }) => {
+  return axios
+    .get(API_URL + `meal/${month}/${year}`, { headers: authHeader() })
+    .then((response) => {
+      return response.data;
+    });
 };
 
+const getMonthlyMealRate = () => {
+  return axios
+    .get(API_URL + `monthlyMealRate`, { headers: authHeader() })
+    .then((response) => {
+      return response.data;
+    });
+};
+
+const getMonthlyUserBill = () => {
+  return axios
+    .get(API_URL + `monthlyUserBill`, { headers: authHeader() })
+    .then((response) => {
+      return response.data;
+    });
+};
 const userService = {
-  getPublicContent,
-  getUserBoard,
-  getModeratorBoard,
-  getAdminBoard,
+  createMeal,
+  getDailyMeals,
+  getMonthlyMeal,
+  getMonthlyAllMeal,
+  getMonthlyMealRate,
+  getMonthlyUserBill,
 };
 
 export default userService;

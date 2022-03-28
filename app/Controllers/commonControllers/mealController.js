@@ -1,13 +1,18 @@
 const MealModel = require("../../Database/Model/MealModel");
 const ExpenseModel = require("../../Database/Model/ExpenseModel");
+const UserBillModel = require("../../Database/Model/UserBillModel");
 
 const { serverError, resourceError } = require("../../utils/error");
 
 module.exports = {
   createMeal(req, res) {
-    let { userId, morning, day, night, date } = req.body;
-    const messId = "111222";
-    let objData = new Object({ userId, morning, day, night, date });
+    const { _id, name, messId } = req.user;
+
+    let { morning, day, night } = req.body;
+    // const messId = "111222";
+    let userId = _id;
+    let date = new Date();
+    let objData = new Object({ userId, name, morning, day, night, date });
     let mealData = new MealModel({
       _id: messId,
       userMeal: objData,
@@ -60,9 +65,118 @@ module.exports = {
       });
   },
 
+  getMonthlyAllMeal(req, res) {
+    const { messId } = req.user;
+    // const messId = "11122233";
+    MealModel.findOne({ _id: messId })
+      .then((result) => {
+        if (result !== null) {
+          if (result.userMeal.length !== 0) {
+            let monthlyAllMeal = [];
+            result.userMeal.filter((i) => {
+              if (
+                new Date(i.date).getMonth() + 1 ===
+                  parseInt(req.params.month) &&
+                // new Date().getMonth() + 1 &&
+                //
+                new Date(i.date).getFullYear() === parseInt(req.params.year)
+                // new Date().getFullYear()
+              ) {
+                return monthlyAllMeal.push(i);
+              }
+            });
+
+            res.status(200).json(monthlyAllMeal);
+          } else {
+            return resourceError(res, "No data Found");
+          }
+        } else {
+          return resourceError(res, "No data found");
+        }
+      })
+      .catch((error) => serverError(res, error));
+  },
+
+  getUserMontlyMeal(req, res) {
+    const { _id, messId } = req.user;
+    // const messId = "11122233";
+    const userId = _id;
+    MealModel.findOne({ _id: messId })
+      .then((result) => {
+        if (result !== null) {
+          if (result.userMeal.length !== 0) {
+            let monthlyMeal = [];
+            result.userMeal.filter((i) => {
+              if (
+                i.userId === userId &&
+                new Date(i.date).getMonth() + 1 ===
+                  //   parseInt(req.params.month)
+                  new Date().getMonth() + 1 &&
+                //
+                new Date(i.date).getFullYear() ===
+                  // parseInt(req.params.year)
+                  new Date().getFullYear()
+              ) {
+                return monthlyMeal.push(i);
+              }
+            });
+
+            res.status(200).json(monthlyMeal);
+          } else {
+            return resourceError(res, "No data Found");
+          }
+        } else {
+          return resourceError(res, "No data found");
+        }
+      })
+      .catch((error) => serverError(res, error));
+  },
+
+  getMonthlyUserBill(req, res) {
+    // let { _id, role, homeId, homeOwner } = req.user;
+    // const messId = "11122233";
+    const { _id, messId } = req.user;
+    let userId = _id;
+    UserBillModel.findOne({ _id: messId })
+      .then((result) => {
+        if (result != null) {
+          if (result.userBill.length != 0) {
+            let userBill = {};
+
+            result.userBill.filter((i) => {
+              if (
+                i.userId === userId &&
+                new Date(i.date).getMonth() + 1 === new Date().getMonth() + 1 &&
+                new Date(i.date).getFullYear() === new Date().getFullYear()
+              ) {
+                return (userBill = i);
+              }
+            });
+            // result.userBill.filter((i) => {
+            //   if (
+            //     new Date(i.date).getMonth() + 1 ===
+            //       parseInt(req.params.month) &&
+            //     new Date(i.date).getFullYear() === parseInt(req.params.year)
+            //   ) {
+            //     return monthlyData.push(i);
+            //   }
+            // });
+
+            res.status(200).json(userBill);
+          } else {
+            return resourceError(res, "No Bill Found");
+          }
+        } else {
+          return resourceError(res, "No bill found");
+        }
+      })
+      .catch((error) => serverError(res, error));
+  },
+
   getDailyMeal(req, res) {
     // let { _id, role, homeId, homeOwner } = req.user;
-    const messId = "111222";
+    // const messId = "11122233";
+    const { messId } = req.user;
     MealModel.findOne({ _id: messId })
       .then((result) => {
         if (result !== null) {
@@ -97,7 +211,8 @@ module.exports = {
 
   getMonthlyMealRate(req, res) {
     // let { _id, role, homeId, homeOwner } = req.user;
-    const messId = "111222";
+    const { messId } = req.user;
+    // const messId = "111222";
     MealModel.findOne({ _id: messId })
       .then((result) => {
         if (result !== null) {
@@ -179,74 +294,27 @@ module.exports = {
       .catch((error) => serverError(res, error));
   },
 
-  getMonthlyExpense(req, res) {
-    // let { _id, role, homeId, homeOwner } = req.user;
-    const messId = "111222";
-    MealModel.findOne({ _id: messId })
-      .then((result) => {
-        if (result != null) {
-          if (result.expense.length != 0) {
-            let monthlyData = [];
-            result.expense.filter((i) => {
-              if (
-                new Date(i.date).getMonth() + 1 ===
-                  parseInt(req.params.month) &&
-                new Date(i.date).getFullYear() === parseInt(req.params.year)
-              ) {
-                return monthlyData.push(i);
-              }
-            });
-
-            res.status(200).json(monthlyData);
-          } else {
-            return resourceError(res, "No data Found");
-          }
-        } else {
-          return resourceError(res, "No data found");
-        }
-      })
-      .catch((error) => serverError(res, error));
-  },
-
-  updateExpense(req, res) {
-    const messId = "111222";
+  updateMeal(req, res) {
+    // const messId = "111222";
+    const { messId } = req.user;
     MealModel.findOne({ _id: messId })
       .then((mess) => {
         if (mess) {
-          let expData;
-
-          mess.expense.filter((i) => {
+          let mealData;
+          mess.userMeal.filter((i) => {
             if (i._id == req.body._id) {
-              return (expData = i);
+              return (mealData = i);
             }
           });
 
-          expData.expType = req.body.expType;
-          expData.expAmount = req.body.expAmount;
+          mealData.morning = req.body.morning;
+          mealData.day = req.body.day;
+          mealData.night = req.body.night;
 
           mess.save();
-          // console.log(apartmentData.rent);
           res.status(200).json({
             message: "Update Successfully",
-            // Floors: response.data,
           });
-          // res.send(apartmentData);
-        } else {
-          return resourceError(res, "Somthing went wrong");
-        }
-      })
-      .catch((error) => serverError(res, error));
-  },
-
-  removeExpense(req, res) {
-    MealModel.updateMany({}, { $pull: { expense: { _id: req.params.expId } } })
-      .then((result) => {
-        if (result.modifiedCount) {
-          res.status(200).json({
-            message: "Successfully Removed ",
-            // Floors: response.data,
-          });
-          // res.send("Successfully Removed Apartment");
         } else {
           return resourceError(res, "Somthing went wrong");
         }
