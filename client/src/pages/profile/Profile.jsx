@@ -89,10 +89,10 @@ const Profile = () => {
     <>
       <div className="container p-5">
         <div className="row d-flex align-items-center mb-5">
-          <div className="col-sm-4">
-            <img alt="img_logo" src={userImg} />
+          <div className="col-md-4 text-center">
+            <img alt="img_logo" src={userImg} width="200px" />
           </div>
-          <div className="col-sm-8">
+          <div className="col-md-8">
             <div className="h1">{user.name}</div>
             <div className="h5">Mobile No: {user._id}</div>
             <div className="h5">Email: example@text.com</div>

@@ -7,6 +7,7 @@ import { Formik, Field, Form, ErrorMessage } from "formik";
 import { toast } from "react-toastify";
 // import "react-toastify/dist/ReactToastify.css";
 import { validationSchema } from "../../validation/ManagerReg";
+import { Link } from "react-router-dom";
 
 const ManagerRegistration = () => {
   const [successful, setSuccessful] = useState(false);
@@ -44,7 +45,7 @@ const ManagerRegistration = () => {
 
   return (
     <>
-      <h3 className="text-center m-5">ManagerRegistration</h3>
+      <h3 className="text-center m-5 color">Manager Registration</h3>
       <div className="container d-flex align-item-center justify-content-center">
         <Formik
           initialValues={initialValues}
@@ -53,7 +54,7 @@ const ManagerRegistration = () => {
         >
           <Form>
             <div className="row register-form">
-              <div className="col-md-6">
+              <div className="col-12">
                 <div className="form-group mb-3">
                   <Field
                     name="name"
@@ -95,7 +96,7 @@ const ManagerRegistration = () => {
                   />
                 </div>
               </div>
-              <div className="col-md-6">
+              <div className="col-12">
                 <div className="form-group mb-3">
                   <Field
                     name="password"
@@ -143,9 +144,12 @@ const ManagerRegistration = () => {
                 </div> */}
                 <input
                   type="submit"
-                  className="btn btn-primary"
+                  className="btn btn-primary btn-block fa-lg gradient-custom-2"
                   value="Register"
                 />
+                <Link to="/" className="btn btn-link">
+                  back to login page
+                </Link>
               </div>
             </div>
           </Form>

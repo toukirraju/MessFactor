@@ -34,7 +34,7 @@ const NavigationBar = () => {
   return (
     <>
       <Navbar
-        className="sticky-top navbarrr bg-secondary"
+        className="sticky-top navbarrr bg-light"
         expand="md"
         collapseOnSelect="true"
       >
@@ -69,62 +69,61 @@ const NavigationBar = () => {
                   </Nav.Link>
                 )}
 
-                {currentUser ? (
-                  <div className="navbar-nav ml-auto">
-                    <Nav.Link
-                      eventKey="5"
-                      as={Link}
-                      to="/profile"
-                      className="navLink"
-                    >
-                      {/* <Link > */}
-                      {currentUser.name}
-                      {/* </Link> */}
-                    </Nav.Link>
+                {
+                  currentUser ? (
+                    <div className="navbar-nav ml-auto">
+                      <Nav.Link
+                        eventKey="5"
+                        as={Link}
+                        to="/profile"
+                        className="navLink"
+                      >
+                        {/* <Link > */}
+                        {currentUser.name}
+                        {/* </Link> */}
+                      </Nav.Link>
 
-                    <Nav.Link
-                      eventKey="6"
-                      as={Link}
-                      to="login"
-                      className="navLink bg-danger text-white"
-                      onClick={logOut}
-                    >
-                      {/* <Link > */}
-                      LogOut
-                      {/* </Link> */}
-                    </Nav.Link>
-                  </div>
-                ) : (
-                  <div className="navbar-nav ml-auto">
-                    <Nav.Link
-                      eventKey="7"
-                      as={Link}
-                      to="/login"
-                      className="navLink"
-                    >
-                      {/* <Link > */}
-                      Login
-                      {/* </Link> */}
-                    </Nav.Link>
+                      <Nav.Link
+                        eventKey="6"
+                        as={Link}
+                        to="/"
+                        className="navLink bg-danger text-white"
+                        onClick={logOut}
+                      >
+                        {/* <Link > */}
+                        LogOut
+                        {/* </Link> */}
+                      </Nav.Link>
+                    </div>
+                  ) : null
+                  // <div className="navbar-nav ml-auto">
+                  //   <Nav.Link
+                  //     eventKey="7"
+                  //     as={Link}
+                  //     to="/login"
+                  //     className="navLink"
+                  //   >
+                  //     Login
+                  //   </Nav.Link>
 
-                    <Nav.Link
-                      eventKey="7"
-                      as={Link}
-                      to="/manRegister"
-                      className="navLink"
-                    >
-                      Manager Register
-                    </Nav.Link>
-                    <Nav.Link
-                      eventKey="7"
-                      as={Link}
-                      to="/userRegister"
-                      className="navLink"
-                    >
-                      User Register
-                    </Nav.Link>
-                  </div>
-                )}
+                  //   <Nav.Link
+                  //     eventKey="7"
+                  //     as={Link}
+                  //     to="/manRegister"
+                  //     className="navLink"
+                  //   >
+                  //     Manager Register
+                  //   </Nav.Link>
+                  //   <Nav.Link
+                  //     eventKey="7"
+                  //     as={Link}
+                  //     to="/userRegister"
+                  //     className="navLink"
+                  //   >
+                  //     User Register
+                  //   </Nav.Link>
+                  // </div>
+                }
               </React.Fragment>
             </Nav>
           </Navbar.Collapse>

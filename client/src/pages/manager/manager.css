@@ -1,5 +1,5 @@
 .moderatorWraper {
-  background: rgb(0, 45, 60);
+  background: rgb(241, 242, 243);
   height: calc(100vh - 65px);
   overflow-y: auto;
 }

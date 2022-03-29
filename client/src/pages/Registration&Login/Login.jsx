@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Navigate, Route, Routes } from "react-router-dom";
 import { Formik, Field, Form, ErrorMessage } from "formik";
+
+import { toast } from "react-toastify";
 import * as Yup from "yup";
 
 import { login } from "../../redux/slices/auth";
@@ -35,7 +37,7 @@ const Login = () => {
     dispatch(login(formValue))
       .unwrap()
       .then(() => {
-        alert("login successfull");
+        toast.success("Successfully loged in");
         history("/dashboard");
         // window.location.reload();
       })
@@ -61,16 +63,16 @@ const Login = () => {
           </div>
         </div>
       )}
-      <h3 className="text-center">Login</h3>
-      <div className="container justify-content-center">
-        <div className="row ">
-          <div className="col-md-6 offset-3 ">
-            <Formik
-              initialValues={initialValues}
-              validationSchema={validationSchema}
-              onSubmit={handleLogin}
-            >
-              <Form>
+      <h3 className="text-center color">Login</h3>
+      <div className="container d-flex align-item-center justify-content-center">
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          onSubmit={handleLogin}
+        >
+          <Form>
+            <div className="row ">
+              <div className="col-12">
                 <div className="form-group mb-3">
                   <Field
                     name="phone"
@@ -100,13 +102,13 @@ const Login = () => {
                 </div>
                 <input
                   type="submit"
-                  className="btn btn-primary"
+                  className="btn btn-primary btn-block fa-lg gradient-custom-2"
                   value="Login"
                 />
-              </Form>
-            </Formik>
-          </div>
-        </div>
+              </div>
+            </div>
+          </Form>
+        </Formik>
       </div>
     </>
   );
