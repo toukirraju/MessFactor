@@ -15,4 +15,19 @@ app {
 
 .input-container .react-datepicker-wrapper input {
   padding: 4px 12px;
+  width: 80px;
 }
+
+.date-input-field {
+  max-width: 7rem;
+}
+
+/* @media screen and (max-width: 720px) {
+  .datepicker-container {
+    margin: auto;
+    width: 110px;
+  }
+  .datepicker-container .react-datepicker-wrapper input {
+    width: 80px;
+  }
+} */

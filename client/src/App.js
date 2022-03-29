@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import ManagerRegistration from "./pages/Registration&Login/ManagerRegistration";
 import Login from "./pages/Registration&Login/Login";
 import Dashboard from "./pages/dashboard/Dashboard";
+import Home from "./pages/home/Home";
 
 import "react-datepicker/dist/react-datepicker.css";
 import { ToastContainer } from "react-toastify";
@@ -42,10 +43,18 @@ function App() {
               ) : (
                 <></>
               )}
+              <Route
+                path="*"
+                element={
+                  <main style={{ padding: "1rem" }}>
+                    <p>There's nothing here!</p>
+                  </main>
+                }
+              />
             </>
           ) : (
             <>
-              {/* <Route path="/" element={<Home />} /> */}
+              <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/manRegister" element={<ManagerRegistration />} />
               <Route path="/userRegister" element={<UserRegistration />} />

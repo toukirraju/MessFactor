@@ -195,12 +195,18 @@ const Manager = () => {
             {/* Expense Info */}
             <div className="col-md-6">
               <div className="d-flex justify-content-around">
-                <Button variant="primary" onClick={() => setExpModalShow(true)}>
-                  Create Expense
-                </Button>
+                <div>
+                  <Button
+                    variant="primary"
+                    onClick={() => setExpModalShow(true)}
+                  >
+                    Create Expense
+                  </Button>
+                </div>
                 <div className="input-container">
                   <div>
                     <DatePicker
+                      className="date-input-field"
                       selected={startDate}
                       onChange={(date) => setStartDate(date)}
                       dateFormat="MMMM/yyyy"

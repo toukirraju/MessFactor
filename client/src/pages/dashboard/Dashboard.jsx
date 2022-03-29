@@ -131,26 +131,28 @@ const Dashboard = () => {
           <div className="col-md-6 mt-5">
             <LineChart data={data} />
           </div>
-          <div className="row col-12 my-5">
-            <div className="col-md-4">
-              <Cards name="Morning" value={dailyMorning} />
+          <div className=" col-12 my-5">
+            <div className="row">
+              <div className="col-md-4">
+                <Cards name="Morning" value={dailyMorning} />
+              </div>
+              <div className="col-md-4">
+                <Cards name="Day" value={dailyDay} />
+              </div>
+              <div className="col-md-4">
+                <Cards name="Night" value={dailyNight} />
+              </div>
+              <TableView
+                columnDefs={[
+                  { headerName: "User Id", field: "userId" },
+                  { headerName: "User Name", field: "name" },
+                  { headerName: "Morning", field: "morning" },
+                  { headerName: "Day", field: "day" },
+                  { headerName: "Night", field: "night" },
+                ]}
+                rowData={dailyMeals}
+              />
             </div>
-            <div className="col-md-4">
-              <Cards name="Day" value={dailyDay} />
-            </div>
-            <div className="col-md-4">
-              <Cards name="Night" value={dailyNight} />
-            </div>
-            <TableView
-              columnDefs={[
-                { headerName: "User Id", field: "userId" },
-                { headerName: "User Name", field: "name" },
-                { headerName: "Morning", field: "morning" },
-                { headerName: "Day", field: "day" },
-                { headerName: "Night", field: "night" },
-              ]}
-              rowData={dailyMeals}
-            />
           </div>
         </div>
       </div>
