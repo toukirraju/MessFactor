@@ -1,15 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { toast } from "react-toastify";
 import { createExpense } from "../../redux/slices/messSlice";
+import { clearMessage } from "../../redux/slices/message";
+import { reloadingOn, reloadingOff } from "../../redux/slices/reload";
 
 const CreateExpense = (props) => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
+
+  const { message } = useSelector((state) => state.message);
   const initialValues = {
     date: "",
     expType: "",
@@ -26,14 +30,21 @@ const CreateExpense = (props) => {
 
   const handleSubmit = (formValue) => {
     setLoading(true);
+    dispatch(reloadingOff());
     dispatch(createExpense(formValue))
       .then(() => {
         setLoading(false);
+        dispatch(reloadingOn());
         toast.success("Successfully created");
         props.onHide(true);
       })
-      .catch(setLoading(false));
+      .catch(() => setLoading(true));
   };
+
+  useEffect(() => {
+    dispatch(clearMessage());
+    dispatch(reloadingOff());
+  }, [dispatch]);
 
   return (
     <Modal
@@ -48,6 +59,13 @@ const CreateExpense = (props) => {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
+        {message && (
+          <div className="form-group">
+            <div className="alert alert-danger" role="alert">
+              {message}
+            </div>
+          </div>
+        )}
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
@@ -55,6 +73,7 @@ const CreateExpense = (props) => {
         >
           <Form>
             <div className="form-group mb-3">
+              <label>Date</label>
               <Field
                 type="date"
                 placeholder="Enter Date"
@@ -69,11 +88,13 @@ const CreateExpense = (props) => {
             </div>
 
             <div className="form-group mb-3">
+              <label>Name</label>
               <Field
                 type="text"
-                placeholder="enter spender's name"
+                placeholder="spender's name"
                 name="spender"
                 className="form-control"
+                autoComplete="off"
               />
               <ErrorMessage
                 name="spender"
@@ -83,11 +104,13 @@ const CreateExpense = (props) => {
             </div>
 
             <div className="form-group mb-3">
+              <label>Type</label>
               <Field
                 type="text"
                 placeholder="Expense type"
                 name="expType"
                 className="form-control"
+                autoComplete="off"
               />
               <ErrorMessage
                 name="expType"
@@ -97,11 +120,13 @@ const CreateExpense = (props) => {
             </div>
 
             <div className="form-group mb-3">
+              <label>Amount</label>
               <Field
                 type="number"
                 placeholder="enter total expense"
                 name="expAmount"
                 className="form-control"
+                autoComplete="off"
               />
               <ErrorMessage
                 name="expAmount"
@@ -110,8 +135,6 @@ const CreateExpense = (props) => {
               />
             </div>
 
-            {/* <input type="submit" className="btn btn-primary" value="Submit" />
-             */}
             <button
               type="submit"
               className="btn btn-primary"
@@ -120,7 +143,7 @@ const CreateExpense = (props) => {
               {loading && (
                 <span className="spinner-border spinner-border-sm"></span>
               )}
-              <span>Submit</span>
+              <span>Create</span>
             </button>
           </Form>
         </Formik>

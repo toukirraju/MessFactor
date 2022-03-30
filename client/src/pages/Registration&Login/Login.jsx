@@ -39,6 +39,7 @@ const Login = () => {
       .then(() => {
         toast.success("Successfully loged in");
         history("/dashboard");
+        setLoading(false);
         // window.location.reload();
       })
       .catch(() => {
@@ -79,6 +80,7 @@ const Login = () => {
                     type="number"
                     placeholder="Your Phone *"
                     className="form-control"
+                    autoComplete="off"
                   />
                   <ErrorMessage
                     name="phone"
@@ -100,11 +102,21 @@ const Login = () => {
                     className="alert alert-danger"
                   />
                 </div>
-                <input
+                {/* <input
                   type="submit"
                   className="btn btn-primary btn-block fa-lg gradient-custom-2"
                   value="Login"
-                />
+                /> */}
+                <button
+                  type="submit"
+                  className="btn btn-primary btn-block fa-lg gradient-custom-2"
+                  disabled={loading}
+                >
+                  {loading && (
+                    <span className="spinner-border spinner-border-sm"></span>
+                  )}
+                  <span>Login</span>
+                </button>
               </div>
             </div>
           </Form>

@@ -58,6 +58,14 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/manRegister" element={<ManagerRegistration />} />
               <Route path="/userRegister" element={<UserRegistration />} />
+              <Route
+                path="*"
+                element={
+                  <main style={{ padding: "1rem" }}>
+                    <p>There's nothing here!</p>
+                  </main>
+                }
+              />
             </>
           )}
         </Routes>

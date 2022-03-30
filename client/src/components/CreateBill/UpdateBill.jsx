@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { updateBill } from "../../redux/slices/messSlice";
 
 import { toast } from "react-toastify";
-import { reloading } from "../../redux/slices/reload";
+import { reloadingOn, reloadingOff } from "../../redux/slices/reload";
 
 const UpdateBill = (props) => {
   const dispatch = useDispatch();
@@ -29,15 +29,16 @@ const UpdateBill = (props) => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
+    dispatch(reloadingOff());
     setLoading(true);
     dispatch(updateBill(initialValues))
       .then(() => {
-        dispatch(reloading());
+        dispatch(reloadingOn());
         setLoading(false);
-        toast.success("Successfully created");
+        toast.success("Successfully updated");
         props.onHide(true);
       })
-      .catch(setLoading(false));
+      .catch(() => setLoading(false));
   };
 
   useEffect(() => {

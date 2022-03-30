@@ -21,6 +21,7 @@ import {
   removeBill,
 } from "../../redux/slices/messSlice";
 import { getAllMonthlyMeal } from "../../redux/slices/userSlice";
+import { reloadingOn, reloadingOff } from "../../redux/slices/reload";
 
 const Manager = () => {
   const [messModalShow, setMessModalShow] = React.useState(false);
@@ -85,11 +86,17 @@ const Manager = () => {
 
   useEffect(() => {
     dispatch(getMessInfo());
+  }, [isReload, isSuccess, dispatch]);
+
+  useEffect(() => {
     dispatch(getMonthlyExpense({ month, year }));
     dispatch(getMonthlyBill({ month, year }));
     dispatch(getAllMonthlyMeal({ month, year }));
-  }, [month, year, isReload, isSuccess, dispatch]);
+  }, [isReload, month, year, dispatch]);
 
+  useEffect(() => {
+    dispatch(reloadingOff());
+  }, [dispatch]);
   return (
     <>
       <CreateMess show={messModalShow} onHide={() => setMessModalShow(false)} />
@@ -129,7 +136,7 @@ const Manager = () => {
         <div className="container">
           <div className="row my-3">
             {/* MessInfo */}
-            <div className="col-md-6">
+            <div className="col-md-6 mb-3">
               <Button
                 variant="primary"
                 className="me-2"
@@ -193,7 +200,7 @@ const Manager = () => {
             </div>
 
             {/* Expense Info */}
-            <div className="col-md-6">
+            <div className="col-md-6 ">
               <div className="d-flex justify-content-around">
                 <div>
                   <Button

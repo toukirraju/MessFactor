@@ -4,6 +4,7 @@ import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { createBill, getUser } from "../../redux/slices/messSlice";
+import { reloadingOn, reloadingOff } from "../../redux/slices/reload";
 
 import { toast } from "react-toastify";
 
@@ -28,6 +29,7 @@ const CreateBill = (props) => {
   });
 
   const handleSubmit = (formValue) => {
+    dispatch(reloadingOff());
     setLoading(true);
     const userData = JSON.parse(formValue.user);
 
@@ -44,10 +46,11 @@ const CreateBill = (props) => {
     dispatch(createBill(billData))
       .then(() => {
         setLoading(false);
+        dispatch(reloadingOn());
         toast.success("Successfully created");
         props.onHide(true);
       })
-      .catch(setLoading(false));
+      .catch(() => setLoading(true));
   };
 
   useEffect(() => {

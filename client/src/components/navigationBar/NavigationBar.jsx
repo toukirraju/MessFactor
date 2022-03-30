@@ -40,7 +40,8 @@ const NavigationBar = () => {
       >
         <Container>
           <Navbar.Brand>
-            <b className="text-dark">Mess</b>Factor
+            <b className="mess">Mess</b>
+            <span className="factor">Factor</span>
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
