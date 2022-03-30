@@ -55,7 +55,7 @@ const CreateExpense = (props) => {
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
-          Give all information needed below
+          Give all information
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
