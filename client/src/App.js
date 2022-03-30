@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Navigate, Route } from "react-router-dom";
 import "./app.css";
 import NavigationBar from "./components/navigationBar/NavigationBar";
 import Profile from "./pages/profile/Profile";
@@ -60,11 +60,12 @@ function App() {
               <Route path="/userRegister" element={<UserRegistration />} />
               <Route
                 path="*"
-                element={
-                  <main style={{ padding: "1rem" }}>
-                    <p>There's nothing here!</p>
-                  </main>
-                }
+                // element={
+                //   <main style={{ padding: "1rem" }}>
+                //     <p>There's nothing here!</p>
+                //   </main>
+                // }
+                element={<Navigate to="/" replace />}
               />
             </>
           )}
