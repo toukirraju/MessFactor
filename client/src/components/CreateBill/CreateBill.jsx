@@ -55,7 +55,6 @@ const CreateBill = (props) => {
 
   useEffect(() => {
     dispatch(getUser());
-
     setInitialValues({
       date: "",
       user: "",
@@ -66,6 +65,18 @@ const CreateBill = (props) => {
       mealBudget: 0,
     });
   }, []);
+
+  useEffect(() => {
+    setInitialValues({
+      date: "",
+      user: "",
+      rent: messInfo.perSeatRent,
+      wifi: messInfo.wifi,
+      homeMaid: messInfo.homeMaid,
+      currentBill: messInfo.currentBill,
+      mealBudget: 0,
+    });
+  }, [messInfo]);
 
   return (
     <Modal
@@ -199,7 +210,7 @@ const CreateBill = (props) => {
              */}
             <button
               type="submit"
-              className="btn btn-primary"
+              className="btn btn-success"
               disabled={loading}
             >
               {loading && (

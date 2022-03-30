@@ -18,12 +18,15 @@ import {
   getMessInfo,
   getMonthlyBill,
   getMonthlyExpense,
-  removeBill,
 } from "../../redux/slices/messSlice";
 import { getAllMonthlyMeal } from "../../redux/slices/userSlice";
 import { reloadingOn, reloadingOff } from "../../redux/slices/reload";
+import Confirmation from "../../components/confirmation/Confirmation";
 
 const Manager = () => {
+  const [confirmationShow, setConfirmationShow] = React.useState(false);
+  const [removeId, setRemoveId] = React.useState(null);
+
   const [messModalShow, setMessModalShow] = React.useState(false);
   const [messUpdate, setMessUpdate] = React.useState(false);
 
@@ -84,6 +87,11 @@ const Manager = () => {
     setMealUpdateShow(true);
   };
 
+  const handleRemoveBill = (id) => {
+    setRemoveId(id);
+    setConfirmationShow(true);
+  };
+
   useEffect(() => {
     dispatch(getMessInfo());
   }, [isReload, isSuccess, dispatch]);
@@ -132,6 +140,13 @@ const Manager = () => {
 
       <FindUserDetails show={findUsers} onHide={() => setFindUsers(false)} />
 
+      <Confirmation
+        data={removeId}
+        show={confirmationShow}
+        pop_up_type="Remove"
+        onHide={() => setConfirmationShow(false)}
+      />
+
       <div className="moderatorWraper">
         <div className="container">
           <div className="row my-3">
@@ -164,7 +179,7 @@ const Manager = () => {
                   <h5 className="card-title col-8 mb-5">Mess Informations</h5>
                   <div className="text-end col-4 mt-2">
                     <Button
-                      variant="warning"
+                      variant="outline-warning"
                       onClick={() => setMessUpdate(true)}
                     >
                       Edit
@@ -315,7 +330,7 @@ const Manager = () => {
                         </button>
                         <button
                           className="btn btn-outline-danger"
-                          onClick={() => dispatch(removeBill(params.data._id))}
+                          onClick={() => handleRemoveBill(params.data._id)}
                         >
                           Remove
                         </button>
