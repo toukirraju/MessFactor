@@ -102,7 +102,7 @@ const Dashboard = () => {
             <Cards name="Total Collected Bill" value={collectedBill} />
           </div>
           <div className="col-md-3">
-            <Cards name="Remaining Amount Bill" value={remainingMessBill} />
+            <Cards name="Remaining Bill" value={remainingMessBill} />
           </div>
           <div className="col-md-3">
             <Cards

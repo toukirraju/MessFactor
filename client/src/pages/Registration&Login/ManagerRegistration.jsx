@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import React, { useState, useEffect } from "react";
 import { managerRegister } from "../../redux/slices/auth";
 import { clearMessage } from "../../redux/slices/message";
@@ -10,7 +10,9 @@ import { validationSchema } from "../../validation/ManagerReg";
 import { Link } from "react-router-dom";
 
 const ManagerRegistration = () => {
-  const [successful, setSuccessful] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const { message } = useSelector((state) => state.message);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   useEffect(() => {
@@ -26,12 +28,12 @@ const ManagerRegistration = () => {
   };
 
   const handleRegister = (formValue, { resetForm }) => {
-    setSuccessful(false);
+    setLoading(true);
 
     dispatch(managerRegister(formValue))
       .unwrap()
       .then(() => {
-        setSuccessful(true);
+        setLoading(false);
         toast.success("Successfully registered!");
 
         resetForm();
@@ -39,12 +41,19 @@ const ManagerRegistration = () => {
         dispatch(clearMessage());
       })
       .catch(() => {
-        setSuccessful(false);
+        setLoading(true);
       });
   };
 
   return (
     <>
+      {message && (
+        <div className="form-group">
+          <div className="alert alert-danger" role="alert">
+            {message}
+          </div>
+        </div>
+      )}
       <h3 className="text-center m-5 color">Manager Registration</h3>
       <div className="container d-flex align-item-center justify-content-center">
         <Formik
@@ -123,30 +132,17 @@ const ManagerRegistration = () => {
                     className="alert alert-danger"
                   />
                 </div>
-                {/* <div className="form-group mb-3">
-                  <Field
-                    className="form-control"
-                    component="select"
-                    id="type"
-                    name="type"
-                  >
-                    <option className="hidden" selected>
-                      Please select your Type
-                    </option>
-                    <option value="normal_user">Normal User</option>
-                    <option value="manager">Manager</option>
-                  </Field>
-                  <ErrorMessage
-                    name="type"
-                    component="div"
-                    className="alert alert-danger"
-                  />
-                </div> */}
-                <input
+
+                <button
                   type="submit"
                   className="btn btn-primary btn-block fa-lg gradient-custom-2"
-                  value="Register"
-                />
+                  disabled={loading}
+                >
+                  {loading && (
+                    <span className="spinner-border spinner-border-sm"></span>
+                  )}
+                  <span>Register</span>
+                </button>
                 <Link to="/" className="btn btn-link">
                   back to login page
                 </Link>

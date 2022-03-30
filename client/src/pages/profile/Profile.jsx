@@ -13,8 +13,9 @@ import {
   getMonthlyMealRate,
   getMonthlyUserBill,
 } from "../../redux/slices/userSlice";
-import { reloading } from "../../redux/slices/reload";
+import { reloadingOn, reloadingOff } from "../../redux/slices/reload";
 import { getMessInfo } from "../../redux/slices/messSlice";
+import { clearMessage } from "../../redux/slices/message";
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -25,6 +26,8 @@ const Profile = () => {
   const { user } = useSelector((state) => state.auth);
   const { messInfo } = useSelector((state) => state.mess);
   const { isReload } = useSelector((state) => state.reload);
+
+  const { message } = useSelector((state) => state.message);
 
   const [loading, setLoading] = useState(false);
 
@@ -63,15 +66,16 @@ const Profile = () => {
 
   const handleSubmit = (formValue, { resetForm }) => {
     setLoading(true);
+    dispatch(reloadingOff());
     dispatch(createMeal(formValue))
       .then(() => {
-        dispatch(reloading());
+        dispatch(reloadingOn());
         setLoading(false);
         toast.success("Successfully create");
         resetForm();
         // props.onHide(true);
       })
-      .catch(setLoading(false));
+      .catch(() => setLoading(false));
   };
 
   function dateFormatter(params) {
@@ -85,9 +89,13 @@ const Profile = () => {
     dispatch(getMonthlyUserBill());
   }, [isReload, dispatch]);
 
+  useEffect(() => {
+    dispatch(clearMessage());
+  }, [dispatch]);
+
   return (
     <>
-      <div className="container p-5">
+      <div className="container ">
         <div className="row d-flex align-items-center mb-5">
           <div className="col-md-4 text-center">
             <img alt="img_logo" src={userImg} width="200px" />
@@ -144,6 +152,13 @@ const Profile = () => {
           <div className="h3 mb-4 text-uppercase">
             Enter meal information for today
           </div>
+          {message && (
+            <div className="form-group">
+              <div className="alert alert-danger" role="alert">
+                {message}
+              </div>
+            </div>
+          )}
           <Formik initialValues={initialValues} onSubmit={handleSubmit}>
             <Form className="row">
               <div className="card col-sm-4 p-3">

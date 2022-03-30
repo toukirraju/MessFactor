@@ -71,6 +71,7 @@ export const setUser = createAsyncThunk("auth/setUser", async (thunkAPI) => {
 
 export const logout = createAsyncThunk("auth/logout", async () => {
   await AuthService.logout();
+  window.location.reload();
 });
 
 const user = JSON.parse(localStorage.getItem("auth_token"));

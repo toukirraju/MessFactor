@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { updateExpense } from "../../redux/slices/messSlice";
-import { reloading } from "../../redux/slices/reload";
+import { reloadingOn, reloadingOff } from "../../redux/slices/reload";
 
 const UpdateExpense = (props) => {
   const { _id, spender, expType, expAmount } = props.data;
@@ -26,10 +26,11 @@ const UpdateExpense = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
+    dispatch(reloadingOff());
     dispatch(updateExpense(initialValues))
       .then(() => {
         setLoading(false);
-        dispatch(reloading());
+        dispatch(reloadingOn());
         props.onHide(true);
       })
       .catch(() => setLoading(true));

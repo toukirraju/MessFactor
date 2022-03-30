@@ -2,13 +2,17 @@ import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { useDispatch } from "react-redux";
+
+import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
 import { updateMessInfo } from "../../redux/slices/messSlice";
-import { reloading } from "../../redux/slices/reload";
+import { reloadingOn, reloadingOff } from "../../redux/slices/reload";
+import { clearMessage } from "../../redux/slices/message";
 
 const UpdateMess = (props) => {
-  const { _id, messName, totalSeats, perSeatRent, homeMaid, wifi } = props.data;
   const [loading, setLoading] = useState(false);
+
+  const { message } = useSelector((state) => state.message);
   const dispatch = useDispatch();
   const [initialValues, setInitialValues] = useState({
     messId: "",
@@ -19,14 +23,7 @@ const UpdateMess = (props) => {
     wifi: "",
     currentBill: 0,
   });
-  // const initialValues = {
-  //   messId: _id,
-  //   messName: messName,
-  //   totalSeats: utilityBills.totalSeats,
-  //   perSeatRent: utilityBills.perSeatRent,
-  //   homeMaid: utilityBills.homeMaid,
-  //   wifi: utilityBills.wifi,
-  // };
+
   const validationSchema = Yup.object().shape({
     messId: Yup.string().required("This field is required!"),
     messName: Yup.string().required("This field is required!"),
@@ -38,24 +35,30 @@ const UpdateMess = (props) => {
 
   const handleSubmit = (formValue) => {
     setLoading(true);
+    dispatch(reloadingOff());
     dispatch(updateMessInfo(formValue))
       .then(() => {
         setLoading(false);
-        dispatch(reloading());
+        dispatch(reloadingOn());
+        toast.success("Successfully updated info");
         props.onHide(true);
       })
       .catch(() => setLoading(true));
   };
   useEffect(() => {
     setInitialValues({
-      messId: _id,
-      messName: messName,
-      totalSeats: totalSeats,
-      perSeatRent: perSeatRent,
-      homeMaid: homeMaid,
-      wifi: wifi,
+      messId: props.data._id,
+      messName: props.data.messName,
+      totalSeats: props.data.totalSeats,
+      perSeatRent: props.data.perSeatRent,
+      homeMaid: props.data.homeMaid,
+      wifi: props.data.wifi,
+      currentBill: props.data.currentBill,
     });
-  }, [props.data]);
+  }, [props]);
+  useEffect(() => {
+    dispatch(clearMessage());
+  }, [dispatch]);
 
   return (
     <Modal
@@ -70,6 +73,14 @@ const UpdateMess = (props) => {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
+        {message && (
+          <div className="form-group">
+            <div className="alert alert-danger" role="alert">
+              {message}
+            </div>
+          </div>
+        )}
+
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
@@ -180,7 +191,17 @@ const UpdateMess = (props) => {
                 className="alert alert-danger"
               />
             </div>
-            <input type="submit" className="btn btn-primary" value="Submit" />
+            {/* <input type="submit" className="btn btn-primary" value="Submit" /> */}
+            <button
+              type="submit"
+              className="btn btn-primary btn-block fa-lg gradient-custom-2"
+              disabled={loading}
+            >
+              {loading && (
+                <span className="spinner-border spinner-border-sm"></span>
+              )}
+              <span>Update</span>
+            </button>
           </Form>
         </Formik>
       </Modal.Body>
