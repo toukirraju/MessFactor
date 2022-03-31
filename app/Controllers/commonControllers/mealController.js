@@ -11,7 +11,7 @@ module.exports = {
     let { morning, day, night } = req.body;
     // const messId = "111222";
     let userId = _id;
-    let date = new Date();
+    let date = new Date().toLocaleString("en-US", { timeZone: "Asia/Dhaka" });
     let objData = new Object({ userId, name, morning, day, night, date });
     let mealData = new MealModel({
       _id: messId,
@@ -209,6 +209,34 @@ module.exports = {
       .catch((error) => serverError(res, error));
   },
 
+  updateMeal(req, res) {
+    // const messId = "111222";
+    const { messId } = req.user;
+    MealModel.findOne({ _id: messId })
+      .then((mess) => {
+        if (mess) {
+          let mealData;
+          mess.userMeal.filter((i) => {
+            if (i._id == req.body._id) {
+              return (mealData = i);
+            }
+          });
+
+          mealData.morning = req.body.morning;
+          mealData.day = req.body.day;
+          mealData.night = req.body.night;
+
+          mess.save();
+          res.status(200).json({
+            message: "Update Successfully",
+          });
+        } else {
+          return resourceError(res, "Somthing went wrong");
+        }
+      })
+      .catch((error) => serverError(res, error));
+  },
+
   getMonthlyMealRate(req, res) {
     // let { _id, role, homeId, homeOwner } = req.user;
     const { messId } = req.user;
@@ -294,29 +322,145 @@ module.exports = {
       .catch((error) => serverError(res, error));
   },
 
-  updateMeal(req, res) {
-    // const messId = "111222";
+  getYearlyData(req, res) {
     const { messId } = req.user;
+    // const messId = "2345";
     MealModel.findOne({ _id: messId })
-      .then((mess) => {
-        if (mess) {
-          let mealData;
-          mess.userMeal.filter((i) => {
-            if (i._id == req.body._id) {
-              return (mealData = i);
-            }
-          });
+      .then((result) => {
+        if (result !== null) {
+          if (result.userMeal.length !== 0) {
+            let yearlyMeal = [];
+            result.userMeal.filter((i) => {
+              if (new Date(i.date).getFullYear() === new Date().getFullYear()) {
+                return yearlyMeal.push(i);
+              }
+            });
 
-          mealData.morning = req.body.morning;
-          mealData.day = req.body.day;
-          mealData.night = req.body.night;
+            const mealCalcu = (month) => {
+              let totalMeal = 0;
 
-          mess.save();
-          res.status(200).json({
-            message: "Update Successfully",
-          });
+              for (let i in yearlyMeal) {
+                if (new Date(yearlyMeal[i].date).getMonth() + 1 === month) {
+                  totalMeal +=
+                    yearlyMeal[i].morning +
+                    yearlyMeal[i].day +
+                    yearlyMeal[i].night;
+                }
+              }
+              return totalMeal;
+            };
+
+            ExpenseModel.findOne({ _id: messId })
+              .then((result) => {
+                if (result != null) {
+                  if (result.expense.length != 0) {
+                    const yearlyExpense = [];
+                    result.expense.filter((i) => {
+                      if (
+                        new Date(i.date).getFullYear() ===
+                        new Date().getFullYear()
+                      ) {
+                        return yearlyExpense.push(i);
+                      }
+                    });
+
+                    const expenseCalcu = (month) => {
+                      let totalExp = 0;
+
+                      for (let i in yearlyExpense) {
+                        if (
+                          new Date(yearlyExpense[i].date).getMonth() + 1 ===
+                          month
+                        ) {
+                          totalExp += yearlyExpense[i].expAmount;
+                        }
+                      }
+                      return totalExp;
+                    };
+
+                    const mealRateCalcu = (expense, meals) => {
+                      return parseInt(expense) / parseInt(meals);
+                    };
+
+                    const yearlyMeal = [
+                      /*/*January:*/ mealCalcu(1),
+                      /*February:*/ mealCalcu(2),
+                      /*March:*/ mealCalcu(3),
+                      /*April:*/ mealCalcu(4),
+                      /*May:*/ mealCalcu(5),
+                      /*June:*/ mealCalcu(6),
+                      /*July:*/ mealCalcu(7),
+                      /*August:*/ mealCalcu(8),
+                      /*September:*/ mealCalcu(9),
+                      /*October:*/ mealCalcu(10),
+                      /*November:*/ mealCalcu(11),
+                      /*December:*/ mealCalcu(12),
+                    ];
+
+                    const yearlyExpenses = [
+                      /*/*January:*/ expenseCalcu(1),
+                      /*/*February:*/ expenseCalcu(2),
+                      /*/*March:*/ expenseCalcu(3),
+                      /*/*April:*/ expenseCalcu(4),
+                      /*/*May:*/ expenseCalcu(5),
+                      /*/*June:*/ expenseCalcu(6),
+                      /*/*July:*/ expenseCalcu(7),
+                      /*/*August:*/ expenseCalcu(8),
+                      /*/*September:*/ expenseCalcu(9),
+                      /*/*October:*/ expenseCalcu(10),
+                      /*/*November:*/ expenseCalcu(11),
+                      /*/*December:*/ expenseCalcu(12),
+                    ];
+
+                    const yearlyMealRate = [
+                      /*January:*/ mealRateCalcu(expenseCalcu(1), mealCalcu(1)),
+                      /*February:*/ mealRateCalcu(
+                        expenseCalcu(2),
+                        mealCalcu(2)
+                      ),
+                      /*March:*/ mealRateCalcu(expenseCalcu(3), mealCalcu(3)),
+                      /*April:*/ mealRateCalcu(expenseCalcu(4), mealCalcu(4)),
+                      /*May:*/ mealRateCalcu(expenseCalcu(5), mealCalcu(5)),
+                      /*June:*/ mealRateCalcu(expenseCalcu(6), mealCalcu(6)),
+                      /*July:*/ mealRateCalcu(expenseCalcu(7), mealCalcu(7)),
+                      /*August:*/ mealRateCalcu(expenseCalcu(8), mealCalcu(8)),
+                      /*September:*/ mealRateCalcu(
+                        expenseCalcu(9),
+                        mealCalcu(9)
+                      ),
+                      /*October:*/ mealRateCalcu(
+                        expenseCalcu(10),
+                        mealCalcu(10)
+                      ),
+                      /*November:*/ mealRateCalcu(
+                        expenseCalcu(11),
+                        mealCalcu(11)
+                      ),
+                      /*December:*/ mealRateCalcu(
+                        expenseCalcu(12),
+                        mealCalcu(12)
+                      ),
+                    ];
+
+                    const yearlyData = {
+                      yearlyMeal,
+                      yearlyExpenses,
+                      yearlyMealRate,
+                    };
+                    res.status(200).json(yearlyData);
+                  } else {
+                    return resourceError(res, "No data Found");
+                  }
+                } else {
+                  return resourceError(res, "No data found");
+                }
+              })
+              .catch((error) => serverError(res, error));
+          } else {
+            return resourceError(res, "No data Found");
+          }
         } else {
-          return resourceError(res, "Somthing went wrong");
+          return resourceError(res, "No data found");
         }
       })
       .catch((error) => serverError(res, error));

@@ -8,6 +8,7 @@ const {
   getMonthlyUserBill,
   getMonthlyAllMeal,
   updateMeal,
+  getYearlyData,
 } = require("../Controllers/commonControllers/mealController");
 
 router.post("/meal/create", authenticate, createMeal);
@@ -15,6 +16,8 @@ router.post("/meal/create", authenticate, createMeal);
 router.post("/meal/update", authenticate, updateMeal);
 
 router.get("/monthlyMeal", authenticate, getUserMontlyMeal);
+
+router.get("/yearlyData", authenticate, getYearlyData);
 
 router.get("/dailyMeal", authenticate, getDailyMeal);
 
