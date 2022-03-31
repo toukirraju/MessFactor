@@ -121,6 +121,26 @@ export const getMonthlyUserBill = createAsyncThunk(
   }
 );
 
+export const getYearlyData = createAsyncThunk(
+  "man/getYearlyData",
+  async (args, thunkAPI) => {
+    try {
+      const data = await UserService.getYearlyData();
+
+      return data;
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    }
+  }
+);
+
 const initialState = {
   isSuccess: false,
   isPending: false,
@@ -129,6 +149,7 @@ const initialState = {
   allMonthlyMeal: [],
   monthlyMealRate: {},
   monthlyUserBill: {},
+  yearlyData: {},
 };
 
 const userSlice = createSlice({
@@ -217,6 +238,20 @@ const userSlice = createSlice({
       state.isSuccess = false;
       state.isPending = false;
       state.monthlyUserBill = {};
+    },
+
+    [getYearlyData.pending]: (state, action) => {
+      state.isPending = true;
+    },
+    [getYearlyData.fulfilled]: (state, action) => {
+      state.isSuccess = true;
+      state.isPending = false;
+      state.yearlyData = action.payload;
+    },
+    [getYearlyData.rejected]: (state, action) => {
+      state.isSuccess = false;
+      state.isPending = false;
+      state.yearlyData = {};
     },
   },
 });

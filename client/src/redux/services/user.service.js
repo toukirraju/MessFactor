@@ -53,6 +53,14 @@ const getMonthlyUserBill = () => {
       return response.data;
     });
 };
+
+const getYearlyData = () => {
+  return axios
+    .get(API_URL + `yearlyData`, { headers: authHeader() })
+    .then((response) => {
+      return response.data;
+    });
+};
 const userService = {
   createMeal,
   getDailyMeals,
@@ -60,6 +68,7 @@ const userService = {
   getMonthlyAllMeal,
   getMonthlyMealRate,
   getMonthlyUserBill,
+  getYearlyData,
 };
 
 export default userService;

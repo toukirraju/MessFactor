@@ -79,7 +79,9 @@ const Profile = () => {
   };
 
   function dateFormatter(params) {
-    return new Date(params.value).toDateString();
+    return new Date(params.value).toLocaleString("en-US", {
+      timeZone: "Asia/Dhaka",
+    });
   }
 
   useEffect(() => {
