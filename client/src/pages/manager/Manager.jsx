@@ -63,7 +63,9 @@ const Manager = () => {
   // }, [dispatch]);
 
   function dateFormatter(params) {
-    return new Date(params.value).toDateString();
+    return new Date(params.value).toDateString("en-US", {
+      timeZone: "Asia/Dhaka",
+    });
   }
 
   const monthlyBills = () => {

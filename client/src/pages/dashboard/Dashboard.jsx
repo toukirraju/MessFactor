@@ -12,6 +12,7 @@ import {
 import {
   getDailyMeals,
   getMonthlyMealRate,
+  getYearlyData,
 } from "../../redux/slices/userSlice";
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -19,7 +20,7 @@ const Dashboard = () => {
   const { messInfo, allusers, monthlyBill } = useSelector(
     (state) => state.mess
   );
-  const { monthlyMealRate, dailyMeals } = useSelector(
+  const { monthlyMealRate, dailyMeals, yearlyData } = useSelector(
     (state) => state.userInfo
   );
 
@@ -71,13 +72,80 @@ const Dashboard = () => {
   }
 
   const data = {
-    labels: "1234567",
+    labels: [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "June",
+      "July",
+      "Aug",
+      "Sept",
+      "Oct",
+      "Nov",
+      "Dec",
+    ],
     datasets: [
       {
-        label: "My First Dataset",
-        data: [23, 35, 65, 98, 12, 65],
+        label: "Expense",
+        data: yearlyData.yearlyExpenses,
         fill: false,
-        borderColor: "rgb(75, 192, 192)",
+
+        backgroundColor: [
+          "rgba(255, 99, 132, 0.9)",
+          "rgba(54, 162, 235, 0.9)",
+          "rgba(255, 206, 86, 0.9)",
+          "rgba(75, 192, 192, 0.9)",
+          "rgba(153, 102, 255, 0.9)",
+          "rgba(255, 159, 64, 0.9)",
+          "rgba(144, 70, 39, 0.9)",
+          "rgba(204, 201, 51, 0.9)",
+          "rgba(20, 235, 173, 0.9)",
+          "rgba(155, 100, 149, 0.9)",
+          "rgba(66, 252, 158, 0.9)",
+          "rgba(195, 52, 120, 0.9)",
+        ],
+        tension: 0.1,
+      },
+      {
+        label: "Meal",
+        data: yearlyData.yearlyMeal,
+        fill: false,
+        backgroundColor: [
+          "rgba(255, 99, 132, 0.9)",
+          "rgba(54, 162, 235, 0.9)",
+          "rgba(255, 206, 86, 0.9)",
+          "rgba(75, 192, 192, 0.9)",
+          "rgba(153, 102, 255, 0.9)",
+          "rgba(255, 159, 64, 0.9)",
+          "rgba(144, 70, 39, 0.9)",
+          "rgba(204, 201, 51, 0.9)",
+          "rgba(20, 235, 173, 0.9)",
+          "rgba(155, 100, 149, 0.9)",
+          "rgba(66, 252, 158, 0.9)",
+          "rgba(195, 52, 120, 0.9)",
+        ],
+        tension: 0.1,
+      },
+      {
+        label: "Meal Rate",
+        data: yearlyData.yearlyMealRate,
+        fill: false,
+        backgroundColor: [
+          "rgba(255, 99, 132, 0.9)",
+          "rgba(54, 162, 235, 0.9)",
+          "rgba(255, 206, 86, 0.9)",
+          "rgba(75, 192, 192, 0.9)",
+          "rgba(153, 102, 255, 0.9)",
+          "rgba(255, 159, 64, 0.9)",
+          "rgba(144, 70, 39, 0.9)",
+          "rgba(204, 201, 51, 0.9)",
+          "rgba(20, 235, 173, 0.9)",
+          "rgba(155, 100, 149, 0.9)",
+          "rgba(66, 252, 158, 0.9)",
+          "rgba(195, 52, 120, 0.9)",
+        ],
         tension: 0.1,
       },
     ],
@@ -88,6 +156,7 @@ const Dashboard = () => {
     dispatch(getUser());
     dispatch(getDailyMeals());
     dispatch(getMonthlyMealRate());
+    dispatch(getYearlyData());
     dispatch(getMonthlyBill({ month, year }));
   }, [dispatch]);
 
