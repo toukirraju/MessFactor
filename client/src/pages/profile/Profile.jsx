@@ -79,9 +79,13 @@ const Profile = () => {
   };
 
   function dateFormatter(params) {
-    return new Date(params.value).toLocaleString("en-US", {
-      timeZone: "Asia/Dhaka",
-    });
+    // return new Date(params.value).toUTCString("en-US", {
+    //   timeZone: "Asia/Dhaka",
+    //   hour: "numeric",
+    //   hour12: true,
+    // });
+    console.log(new Date(params.value).toUTCString());
+    return new Date(params.value).toUTCString();
   }
 
   useEffect(() => {
