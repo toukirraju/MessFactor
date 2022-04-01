@@ -75,7 +75,7 @@ const CreateExpense = (props) => {
             <div className="form-group mb-3">
               <label>Date</label>
               <Field
-                type="date"
+                type="datetime-local"
                 placeholder="Enter Date"
                 name="date"
                 className="form-control"
