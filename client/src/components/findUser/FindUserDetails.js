@@ -115,6 +115,18 @@ function FindUserDetails(props) {
                     )}
                     <span>Remove</span>
                   </button>
+
+                  <button
+                    type="submit"
+                    // onClick={handleSubmit(onSubmit)}
+                    className="btn btn-outline-warning btn-block"
+                    disabled={loading}
+                  >
+                    {loading && (
+                      <span className="spinner-border spinner-border-sm"></span>
+                    )}
+                    <span>Upgrade Manager</span>
+                  </button>
                 </div>
               </div>
             </div>
