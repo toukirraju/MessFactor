@@ -162,13 +162,13 @@ const Manager = () => {
               >
                 Create Mess
               </Button>
-              <Button
+              {/* <Button
                 variant="outline-danger"
                 className="me-2"
                 // onClick={() => setMessModalShow(true)}
               >
                 Remove Mess
-              </Button>
+              </Button> */}
 
               <Button
                 variant="outline-success"
